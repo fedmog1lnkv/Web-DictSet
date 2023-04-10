@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login and Registration Page</title>
+  <style>
+    .modal {
+      display: none; 
+      position: fixed; 
+      z-index: 1; 
+      left: 0;
+      top: 0;
+      width: 100%; 
+      height: 100%; 
+      overflow: auto; 
+      background-color: rgb(0,0,0); 
+      background-color: rgba(0,0,0,0.4); 
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; 
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; 
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Страница входа или регистрации типа главная</h1>
+  <button onclick="document.getElementById('loginModal').style.display='block'">Вход</button>
+  <button onclick="document.getElementById('registrationModal').style.display='block'">Регистрация</button>
+
+  <!-- Окно входа -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="document.getElementById('loginModal').style.display='none'">&times;</span>
+      <h2>Вход</h2>
+      <form id="loginForm" action="login.php" method="post">
+        <label for="username">Логин:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">Пароль:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="submit" value="Войти">
+      </form>
+    </div>
+  </div>
+
+  <!-- Окно регистрации -->
+  <div id="registrationModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="document.getElementById('registrationModal').style.display='none'">&times;</span>
+      <h2>Регистрация</h2>
+      <form id="registrationForm" action="register.php" method="post">
+        <label for="username">Логин:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="email">Почта:</label><br>
+        <input type="email" id="email" name="email" required><br>
+        <label for="password">Пароль:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Зарегистрироваться">
+	  </form>
+	</div>
+</div>
+
+<script>
+  var loginModal = document.getElementById('loginModal');
+  var registrationModal = document.getElementById('registrationModal');
+
+  // Мимо окна тыкаешь - закрывается
+  window.onclick = function(event) {
+	if (event.target == loginModal) {
+	  loginModal.style.display = "none";
+	}
+	if (event.target == registrationModal) {
+	  registrationModal.style.display = "none";
+	}
+  }
+</script>
+</body>
+</html>
