@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Access Platform Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: 'Titillium Web', sans-serif;
+      }
+      .container {
+        display: flex;
+        height: 100%;
+      }
+      .left {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #F8FAFC;
+      }
+      .right {
+        flex: 1;
+        background-image: url("fon.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        max-width: calc(100% - 50%);
+      }
+      /* стили для блока логина */
+      #login {
+        width: 80%;
+        max-width: 500px;
+        text-align: center;
+      }
+      #logo {
+        max-width: 350px;
+        margin: 0 0 50px;;
+        display: block;
+      }
+      h1 {
+        font-size: 36px;
+        margin: 0 0 30px;
+        text-align: left;
+      }
+      p {
+        font-size: 20px;
+        margin: 0 0 40px;
+        text-align: left;
+      }
+      label {
+        display: block;
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        text-align: left;
+        float: left;
+      }
+      input[type="email"],
+      input[type="password"],
+      input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        height: 55px;
+        margin: 8px 0 20px;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+      }
+      input[type="submit"] {
+        width: 100%;
+        font-size: 16px;
+        font-weight: 600;
+        height: 55px;
+        background-color: #7C3AED;
+        color: white;
+        margin: 15px 0 0px;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #6f32d8;
+      }
+
+      .password-input {
+        position: relative;
+      }
+
+      .password-input input[type="password"] {
+        padding-right: 30px;
+      }
+
+      .password-input .toggle-password {
+        position: absolute;
+        top: 58%;
+        right: 10px;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        width: 25px;
+        height: 25px;
+        background-image: url('eye-open.svg');
+        color: purple;
+        background-repeat: no-repeat;
+        background-size: contain;
+        cursor: pointer;
+      }
+
+      .password-input .toggle-password.show-password {
+        background-image: url('eye-closed.svg');
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left">
+        <div id="login">
+          <img id="logo" src="logo.png" alt="Logo">
+          <h1>Access to the platform</h1>
+          <p>Log in or <a href="register.html">register</a> to start memorizing words quickly today.</p>
+
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Enter an e-mail" required>
+
+          <label for="password">Password</label>
+          <div class="password-input">
+            <input type="password" id="password" name="password" placeholder="Enter the password" required>
+            <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
+          </div>
+
+          <input type="submit" value="Log In">
+
+        </div>
+      </div>
+      <div class="right"></div>
+    </div>
+
+  <script>
+    const passwordInput = document.getElementById('password');
+    const togglePasswordButton = document.querySelector('.toggle-password');
+
+    togglePasswordButton.addEventListener('click', () => {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        togglePasswordButton.classList.add('show-password');
+      } else {
+        passwordInput.type = 'password';
+        togglePasswordButton.classList.remove('show-password');
+      }
+    });
+  </script>
+
+  </body>
+</html>
