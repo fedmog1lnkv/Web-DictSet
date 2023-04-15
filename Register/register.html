@@ -14,26 +14,44 @@
 <body>
   <div class="container">
     <div class="left">
-      <div id="login">
+      <div id="register">
         <img id="logo" src="../files/logo.png" alt="Logo">
         <h1>Access to the platform</h1>
         <p><a href="../Login/login.html">Log in</a> or register to start memorizing words quickly today.</p>
-        <label for="nickname">Nickname</label>
-        <input type="text" id="nickname" name="nickname" placeholder="Enter nickname" required>
-        <label for="email">E-mail</label>
-        <input type="email" id="email" name="email" placeholder="Enter an e-mail" required>
-
-        <label for="password">Password</label>
-        <div class="password-input">
-          <input type="password" id="password" name="password" placeholder="Enter the password" required>
-          <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
-        </div>
-
-        <input type="submit" onclick="register()" value="Sign up">
+        
+        <form action="#">
+          
+          <label for="nickname">Nickname</label>
+          <input type="text" id="nickname" name="nickname" placeholder="Enter nickname" required>
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="Enter an e-mail" pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,7}$" required>
+          <div class="error-message"></div>
+          <label for="password">Password</label>
+          <div class="password-input">
+            <input type="password" id="password" name="password" pattern="^.{5,}$" placeholder="Enter the password" required oninvalid="setCustomValidity('Пароль должен быть не менее 5 символов')" oninput="setCustomValidity('')">
+            <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
+          </div>
+          <input type="submit" onclick="register()" value="Sign up">
+        </form>
       </div>
     </div>
     <div class="right"></div>
   </div>
+
+        
+  <script>
+    const emailInput = document.getElementById("email");
+    const errorMessage = document.querySelector(".error-message");
+    emailInput.addEventListener("input", () => {
+      if (!emailInput.checkValidity()) {
+        emailInput.classList.add("error");
+        errorMessage.textContent = "Invalid email address";
+      } else {
+        emailInput.classList.remove("error");
+        errorMessage.textContent = "";
+      }
+    });
+  </script>
 
   <script src="../files/scripts/custom_eye_password.js"></script>
   <script>
@@ -43,7 +61,7 @@
       const passwordInput = document.getElementById('password');
 
       if (usernameInput.value == "" || emailInput.value == "" || passwordInput.value == "") {
-        alert("Please fill in all fields");
+        // alert("Please fill in all fields");
         return;
       }
 
