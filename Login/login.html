@@ -29,7 +29,7 @@
             <div class="error-message"></div>
             <label for="password">Password</label>
             <div class="password-input">
-              <input type="password" id="password" name="password" pattern="^.{5,}$" placeholder="Enter the password" required oninvalid="checkPassword('Пароль должен быть не менее 5 символов')" oninput="checkPassword('')">
+              <input type="password" id="password" name="password" pattern="^.{5,}$" placeholder="Enter the password" required oninvalid="setCustomValidity('Пароль должен быть не менее 5 символов')" oninput="setCustomValidity('')">
               <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
             </div>
 
