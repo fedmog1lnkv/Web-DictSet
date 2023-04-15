@@ -1,12 +1,12 @@
-const passwordInput = document.getElementById('password');
+const passwordInputEye = document.getElementById('password');
 const togglePasswordButton = document.querySelector('.toggle-password');
 
 togglePasswordButton.addEventListener('click', () => {
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
+    if (passwordInputEye.type === 'password') {
+        passwordInputEye.type = 'text';
         togglePasswordButton.classList.add('show-password');
     } else {
-        passwordInput.type = 'password';
+        passwordInputEye.type = 'password';
         togglePasswordButton.classList.remove('show-password');
     }
 });

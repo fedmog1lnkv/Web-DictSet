@@ -11,7 +11,9 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<script src="../files/scripts/validate_token.js"></script>
+
+<body onload="validate_token()">
   <div class="container">
     <div class="left">
       <div id="login">
@@ -28,7 +30,7 @@
           <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
         </div>
 
-        <input type="submit" value="Log In">
+        <input type="submit" onclick="login()" value="Log In">
 
       </div>
     </div>
@@ -36,6 +38,45 @@
   </div>
 
   <script src="../files/scripts/custom_eye_password.js"></script>
+  <script>
+    function login() {
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+
+      if (emailInput.value == "" || passwordInput.value == "") {
+        alert("Please fill in all fields");
+        return;
+      }
+
+      const data = {
+        username: '',
+        email: emailInput.value,
+        password: passwordInput.value
+      };
+      const url = "https://localhost:7078/api/Login";
+
+      var result;
+      fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+          result = data;
+          console.log(result);
+          if (data.message == undefined) {
+            alert("Incorrect login or password")
+          }
+          if (data.token != undefined) {
+            localStorage.setItem("token_dictset", data
+              .token); // save token in localStorage
+          }
+        });
+    }
+  </script>
 
 </body>
 
