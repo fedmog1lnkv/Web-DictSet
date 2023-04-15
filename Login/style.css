@@ -37,7 +37,6 @@ body {
 #logo {
     max-width: 350px;
     margin: 0 0 50px;
-    ;
     display: block;
 }
 
@@ -118,4 +117,18 @@ input[type="submit"]:hover {
 
 .password-input .toggle-password.show-password {
     background-image: url('../files/eye-closed.svg');
+}
+
+input:required:valid {
+    border: 2px solid rgb(2, 146, 50);
+}
+
+input.error {
+    border: 2px solid rgba(226, 28, 28, 0.877);
+    background-color:  #ffe6e0;
+}
+
+.error-message {
+  margin-top: -10px;
+  font-size: 15px;
 }
