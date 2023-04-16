@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Workplace</title>
+	<meta charset="UTF-8">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>
+		<img src="../files/logo.png" alt="Логотип" class="logo">
+	</header>
+	<main>
+		<div class="workplace">
+			<div class="workplace__header">
+				<p class="setstxt">Sets</p>
+				<button class="create-set">СОЗДАТЬ СЕТ</button>
+			</div>
+			<div class="workplace__search">
+				<input type="text" placeholder="Find Set 🔎" class="search-box">
+				<div class="search-sort">
+					<select>
+						<option value="name">Order by name</option>
+						<option value="alphabet">her znaet</option>
+					 </select>
+				</div>
+			</div>
+			<div class="card-set">
+				<!-- Пример карточки -->
+				<!-- <div class="card">
+					<div class="card-content">
+						<div class="card-title">Card title</div>
+						<div class="card-word-count">Count words</div>
+						<div class="card-line"></div>
+						<div class="card-learn">Learn</div>
+					</div>
+				</div> -->
+			</div>
+	</main>
+	<script src="https://cdn.jsdelivr.net/npm/randomcolor/randomColor.min.js"></script>
+	<script>
+		const cardSet = document.querySelector('.card-set');
+		fetch('sets.json')
+			.then(response => response.json())
+			.then(data => {
+				data.sets.forEach(set => {
+					const card = document.createElement('div');
+					card.classList.add('card');
+					cardSet.appendChild(card);
+	
+					const cardContent = document.createElement('div');
+					cardContent.classList.add('card-content');
+					card.appendChild(cardContent);
+	
+					// Название карточки
+					const cardTitle = document.createElement('div');
+					cardTitle.classList.add('card-title');
+					cardTitle.textContent = set.name;
+					cardContent.appendChild(cardTitle);
+	
+					// Колво слов
+					const cardWordCount = document.createElement('div');
+					cardWordCount.classList.add('card-word-count');
+					cardWordCount.textContent = set.wordCount + ' words';
+					cardContent.appendChild(cardWordCount);
+	
+					// Полоска
+					const cardLine = document.createElement('div');
+					cardLine.classList.add('card-line');
+					cardContent.appendChild(cardLine);
+	
+					// Кнопка "Learn"
+					const cardLearn = document.createElement('div');
+					cardLearn.classList.add('card-learn');
+					cardLearn.textContent = 'Learn';
+					cardContent.appendChild(cardLearn);
+	
+					// Фоновый цвет карточки
+					const color = randomColor();
+					const canvas = document.createElement('canvas');
+					canvas.width = 300;
+					canvas.height = 300;
+	
+					const ctx = canvas.getContext('2d');
+					ctx.fillStyle = color;
+					ctx.fillRect(0, 0, 300, 300);
+	
+					card.style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
+				});
+			})
+			.catch(error => console.error(error));
+	</script>
+</body>
+</html>
