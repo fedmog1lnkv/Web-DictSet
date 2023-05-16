@@ -12,9 +12,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<!-- <script src="../files/scripts/validate_token.js"></script> -->
-
-<body onload="validate_token()">
+<body>
   <div class="container">
     <div class="left">
       <div id="login">
@@ -22,18 +20,18 @@
         <h1>Access to the platform</h1>
         <p>Log in or <a href="../Register/register.html">register</a> to start memorizing words quickly today.</p>
 
-        <form action="#">
+        <form action="login.php" method="post">
         
             <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Enter an e-mail" pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,7}$" required>
             <div class="error-message"></div>
             <label for="password">Password</label>
             <div class="password-input">
-              <input type="password" id="password" name="password" pattern="^.{5,}$" placeholder="Enter the password" required oninvalid="setCustomValidity('Пароль должен быть не менее 5 символов')" oninput="setCustomValidity('')">
+              <input type="password" id="password" name="password" pattern="^.{3,}$" placeholder="Enter the password" required oninvalid="setCustomValidity('Пароль должен быть не менее 5 символов')" oninput="setCustomValidity('')">
               <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
             </div>
 
-            <input type="submit" onclick="login()" value="Log In">
+            <input type="submit" value="LogIn">
         
         </form>
 
@@ -57,46 +55,7 @@
   </script>
 
   <script src="../files/scripts/custom_eye_password.js"></script>
-  <script>
-    function login() {
-      const emailInput = document.getElementById('email');
-      const passwordInput = document.getElementById('password');
-
-      if (emailInput.value == "" || passwordInput.value == "") {
-        // alert("Please fill in all fields");
-        return;
-      }
-
-      const data = {
-        username: '',
-        email: emailInput.value,
-        password: passwordInput.value
-      };
-      const url = "https://localhost:7078/api/Login";
-
-      var result;
-      fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-          result = data;
-          console.log(result);
-          if (data.message == undefined) {
-            alert("Incorrect login or password")
-          }
-          if (data.token != undefined) {
-            localStorage.setItem("token_dictset", data
-              .token); // save token in localStorage
-          }
-        });
-    }
-  </script>
-
+    
 </body>
 
 </html>
