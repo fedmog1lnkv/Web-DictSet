@@ -19,7 +19,7 @@
         <h1>Access to the platform</h1>
         <p><a href="../Login/login.html">Log in</a> or register to start memorizing words quickly today.</p>
         
-        <form action="#">
+        <form action="register.php" method="post">
           
           <label for="nickname">Nickname</label>
           <input type="text" id="nickname" name="nickname" placeholder="Enter nickname" required>
@@ -28,10 +28,10 @@
           <div class="error-message"></div>
           <label for="password">Password</label>
           <div class="password-input">
-            <input type="password" id="password" name="password" pattern="^.{5,}$" placeholder="Enter the password" required oninvalid="setCustomValidity('Пароль должен быть не менее 5 символов')" oninput="setCustomValidity('')">
+            <input type="password" id="password" name="password" pattern="^.{3,}$" placeholder="Enter the password" required oninvalid="setCustomValidity('Пароль должен быть не менее 5 символов')" oninput="setCustomValidity('')">
             <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
           </div>
-          <input type="submit" onclick="register()" value="Sign up">
+          <input type="submit" onclick="register()" value="Register">
         </form>
       </div>
     </div>
@@ -54,51 +54,6 @@
   </script>
 
   <script src="../files/scripts/custom_eye_password.js"></script>
-  <script>
-    function register() {
-      const usernameInput = document.getElementById('nickname');
-      const emailInput = document.getElementById('email');
-      const passwordInput = document.getElementById('password');
-
-      if (usernameInput.value == "" || emailInput.value == "" || passwordInput.value == "") {
-        // alert("Please fill in all fields");
-        return;
-      }
-
-      const data = {
-        username: usernameInput.value,
-        email: emailInput.value,
-        password: passwordInput.value,
-      };
-
-      const url = "https://localhost:7078/api/Register";
-
-      fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => {
-          statusCode = response.status;
-          return response.text();
-        })
-        .then(data => {
-
-          console.log(`Статус код: ${statusCode}`);
-          if (statusCode == 200) {
-            window.location.assign("../Login/login.html");
-          } else {
-            alert("E-mail already use");
-          }
-
-        })
-        .catch(error => console.error(error));
-
-
-    }
-  </script>
 </body>
 
 </html>
