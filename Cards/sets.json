@@ -1,22 +1,30 @@
 {
     "sets": [
       {
-        "name": "Первый"
+        "name": "Slova",
+        "words": ["hi-привет; bye-пока; give-дай; gaw-гав; meow-мяу; lol-лол; tyagi-тяги; kefteme-кефтеме; uuuf-уууф; barhatnie-бархатные; chtoza-чтоза"],
+        "description": ["Hello is hello; Bye is poka"]
       },
       {
-        "name": "Второй"
+        "name": "Nature",
+        "words": ["hi-привет; bye-пока"],
+        "description": ["Hello is hello; Bye is poka"]
       },
       {
-        "name": "Третий"
+        "name": "Sea",
+        "words": []
       },
       {
-        "name": "Четвертый"
+        "name": "Clothes",
+        "words": []
       },
       {
-        "name": "Пятый"
+        "name": "Weather",
+        "words": []
       },
       {
-        "name": "Шестой"
+        "name": "Sixth",
+        "words": []
       }
     ]
-  }
+}

@@ -8,7 +8,7 @@
 	<link
 		href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
 		rel="stylesheet">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style-for-cards.css">
 </head>
 <body>
 	<header>
@@ -18,7 +18,7 @@
 		<div class="workplace">
 			<div class="workplace__header">
 				<p class="setstxt">Sets</p>
-				<button class="create-set">СОЗДАТЬ СЕТ</button>
+				<button class="create-set">CREATE A SET</button>
 			</div>
 			<div class="workplace__search">
 				<input type="text" placeholder="Find Set 🔎" class="search-box">
@@ -40,59 +40,123 @@
 					</div>
 				</div> -->
 			</div>
+			<div class="popup-container-create-set">
+				<div class="popup-create-set">
+				  <h2>Enter the name of the set</h2>
+				  <input type="text" placeholder="Set name">
+				  <button class="create-button">CREATE</button>
+				</div>
+			</div>
+        </div>
 	</main>
 	<script src="https://cdn.jsdelivr.net/npm/randomcolor/randomColor.min.js"></script>
 	<script>
-		const cardSet = document.querySelector('.card-set');
-		fetch('sets.json')
-			.then(response => response.json())
-			.then(data => {
-				data.sets.forEach(set => {
-					const card = document.createElement('div');
-					card.classList.add('card');
-					cardSet.appendChild(card);
-	
-					const cardContent = document.createElement('div');
-					cardContent.classList.add('card-content');
-					card.appendChild(cardContent);
-	
-					// Название карточки
-					const cardTitle = document.createElement('div');
-					cardTitle.classList.add('card-title');
-					cardTitle.textContent = set.name;
-					cardContent.appendChild(cardTitle);
-	
-					// Колво слов
-					const cardWordCount = document.createElement('div');
-					cardWordCount.classList.add('card-word-count');
-					cardWordCount.textContent = set.wordCount + ' words';
-					cardContent.appendChild(cardWordCount);
-	
-					// Полоска
-					const cardLine = document.createElement('div');
-					cardLine.classList.add('card-line');
-					cardContent.appendChild(cardLine);
-	
-					// Кнопка "Learn"
-					const cardLearn = document.createElement('div');
-					cardLearn.classList.add('card-learn');
-					cardLearn.textContent = 'Learn';
-					cardContent.appendChild(cardLearn);
-	
-					// Фоновый цвет карточки
-					const color = randomColor();
-					const canvas = document.createElement('canvas');
-					canvas.width = 300;
-					canvas.height = 300;
-	
-					const ctx = canvas.getContext('2d');
-					ctx.fillStyle = color;
-					ctx.fillRect(0, 0, 300, 300);
-	
-					card.style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
-				});
-			})
-			.catch(error => console.error(error));
+        const cardSet = document.querySelector('.card-set');
+        fetch('sets.json')
+            .then(response => response.json())
+            .then(data => {
+                data.sets.forEach(set => {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+                    cardSet.appendChild(card);
+                    
+                    card.addEventListener('click', () => {
+                        // Open the new HTML page with set details
+                        window.location.href = 'set-details.html?setName=' + encodeURIComponent(set.name) + '&words=' + encodeURIComponent(set.words);
+                    });
+
+                    const cardContent = document.createElement('div');
+                    cardContent.classList.add('card-content');
+                    card.appendChild(cardContent);
+    
+                    // Set name
+                    const cardTitle = document.createElement('div');
+                    cardTitle.classList.add('card-title');
+                    cardTitle.textContent = set.name;
+                    cardContent.appendChild(cardTitle);
+    
+                    // Word count
+                    const cardWordCount = document.createElement('div');
+                    cardWordCount.classList.add('card-word-count');
+                    const words = set.words && set.words.length > 0 ? set.words[0].split(';') : [];
+                    const wordCount = words.length;
+                    cardWordCount.textContent = wordCount + ' words';
+                    cardContent.appendChild(cardWordCount);
+    
+                    // Card line
+                    const cardLine = document.createElement('div');
+                    cardLine.classList.add('card-line');
+                    cardContent.appendChild(cardLine);
+    
+                    // Learn button
+                    const cardLearn = document.createElement('div');
+                    cardLearn.classList.add('card-learn');
+                    cardLearn.textContent = 'Learn';
+                    cardContent.appendChild(cardLearn);
+    
+                    // Background color
+                    const color = randomColor();
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 300;
+                    canvas.height = 300;
+    
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = color;
+                    ctx.fillRect(0, 0, 300, 300);
+    
+                    card.style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
+                });
+            })
+            .catch(error => console.error(error));
+    </script>
+
+	<!-- Кнопка создать сет -->
+	<script>
+		const createSetButton = document.querySelector('.create-set');
+		const popupContainer = document.querySelector('.popup-container-create-set');
+		const popupCreateSet = document.querySelector('.popup-create-set');
+		const createButton = document.querySelector('.create-button');
+		const input = document.querySelector('input');
+
+		createSetButton.addEventListener('click', () => {
+		popupContainer.style.display = 'block';
+		input.focus();
+		});
+
+		popupContainer.addEventListener('click', (e) => {
+		if (e.target === popupContainer) {
+			popupContainer.style.display = 'none';
+		}
+		});
+
+		createButton.addEventListener('click', () => {
+		const setName = input.value;
+		console.log(`Set name: ${setName}`);
+		popupContainer.style.display = 'none';
+		input.value = '';
+		});
 	</script>
+
+	<!-- Поиск сетов -->
+<script>
+    const searchBox = document.querySelector('.search-box');
+    searchBox.addEventListener('input', () => {
+    const searchText = searchBox.value.trim().toLowerCase();
+    filterCards(searchText);
+    });
+
+    function filterCards(searchText) {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card) => {
+    const title = card.querySelector('.card-title').textContent.toLowerCase();
+    const wordCount = card.querySelector('.card-word-count').textContent.toLowerCase();
+    if (title.includes(searchText) || wordCount.includes(searchText)) {
+    card.style.display = 'flex';
+    } else {
+    card.style.display = 'none';
+    }
+    });
+}
+</script>
 </body>
 </html>

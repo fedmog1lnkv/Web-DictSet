@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dictation Page</title>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+		rel="stylesheet">
+    <style>
+
+        body {
+            font-family: 'Titillium Web', sans-serif;
+            background-color: #F8FAFC;
+        }
+
+        /* Add CSS styles for progress bar */
+        .progress-bar {
+            width: 80%;
+            height: 20px;
+            border-radius: 10px;
+            background-color: #E2E8F0;
+            position: relative;
+            margin: 0 auto;
+            margin-top: 50px;
+            
+        }
+
+        .progress-bar-fill {
+            border-radius: 10px;
+            height: 100%;
+            background-color: #7C3AED;
+            width: 0;
+        }
+
+        .workplace{
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Add CSS styles for word display */
+        .word-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 250px);
+        }
+
+        .translation-input {
+            width: 30%;
+            height: 5%;
+            font-size: 14px;
+            padding: 10px 10px 10px 10px;
+        }
+
+        .word {
+            font-size: 50px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .translation-input {
+            font-size: 25px;
+        }
+
+        /* Add CSS styles for navigation buttons */
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+         
+        }
+
+        .navigation-buttons button {
+            margin: 0 8px;
+            padding: 8px 16px;
+        }
+
+        /* Add CSS styles for popup window */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+            backdrop-filter: blur(5px);
+        }
+
+        .popup-content {
+            height: auto;
+            width: auto;
+            background-color: #fff;
+            padding: 32px;
+            border-radius: 4px;
+        }
+
+        .results-container{
+            /* height: 190px; */
+            width: auto;
+        }
+
+        .incorrect-words{
+            height: 130px; 
+        }
+
+        
+        .btn-repeat-dictation, .btn-return-to-previous {
+            background-color: #7C3AED;
+            color: white;
+            height: auto;
+            width: 120px;
+            padding: 10px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        
+        .btn-prev-word, .btn-next-word{
+            background-color: #7C3AED;
+            color: white;
+            height: 50px;
+            width: 140px;
+            padding: 10px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .btn-prev-word:hover, .btn-next-word:hover {
+            background-color: #6931c9;
+        }
+
+        .btn-prev-word:active, .btn-next-word:active {
+            background-color: #572aa5;
+        }
+
+    </style>
+</head>
+    <body>
+        <div class="workplace">
+
+        <div class="progress-bar">
+            <div class="progress-bar-fill"></div>
+        </div>
+        <div class="word-container">
+            <div class="word"></div>
+            <input class="translation-input" type="text" placeholder="Enter translation" />
+            <div class="message"></div>
+        </div>
+        <div class="navigation-buttons">
+            <button class="btn-prev-word">PREVIOUS</button>
+            <button class="btn-next-word">NEXT</button>
+        </div>
+
+        </div>
+
+        <div class="popup-overlay">
+            <div class="popup-content">
+                <div class="popup-word-pair">
+                    <div class="popup-word"></div>
+                    <div class="popup-translation"></div>
+                </div>
+                <div class="popup-description-results">Dictation results will be displayed here.</div>
+                <div class="results-container">
+                    <h3 class = "results-message"></h3>
+                    <ul class="incorrect-words"></ul>
+                </div>
+                <div class="popup-buttons">
+                    <button class="btn-repeat-dictation">REPEAT DICT</button>
+                    <button class="btn-return-to-previous">BACK TO SET</button>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+    // Retrieve query parameters
+const params = new URLSearchParams(window.location.search);
+const words = params.get('words');
+
+// Display words
+const wordElement = document.querySelector('.word');
+const translationInput = document.querySelector('.translation-input');
+const messageElement = document.querySelector('.message');
+const progressBarFill = document.querySelector('.progress-bar-fill');
+const navigationButtons = document.querySelector('.navigation-buttons');
+const popupOverlay = document.querySelector('.popup-overlay');
+const popupWord = document.querySelector('.popup-word');
+const popupTranslation = document.querySelector('.popup-translation');
+const incorrectWordsList = document.querySelector('.incorrect-words');
+
+let wordIndex = 0;
+let correctAnswers = 0;
+let totalWords = 0;
+let incorrectWords = [];
+
+if (words) {
+    const wordPairs = words.split(';');
+    totalWords = wordPairs.length;
+
+    updateWord();
+
+    // Add event listener to "Next Word" button
+    const btnNextWord = document.querySelector('.btn-next-word');
+    btnNextWord.addEventListener('click', () => {
+        checkTranslation();
+        wordIndex++;
+        if (wordIndex >= totalWords) {
+            showResults();
+        } else {
+            updateWord();
+        }
+    });
+
+    // Add event listener to "Previous Word" button
+    const btnPrevWord = document.querySelector('.btn-prev-word');
+    btnPrevWord.addEventListener('click', () => {
+        wordIndex--;
+        if (wordIndex < 0) {
+            wordIndex = 0;
+        }
+        updateWord();
+    });
+
+    // Add event listener to "Repeat the Dictation" button
+    const btnRepeatDictation = document.querySelector('.btn-repeat-dictation');
+    btnRepeatDictation.addEventListener('click', () => {
+        resetDictation();
+    });
+
+    // Add event listener to "Return to Previous Page" button
+    const btnReturnToPrevious = document.querySelector('.btn-return-to-previous');
+    btnReturnToPrevious.addEventListener('click', () => {
+        window.history.back();
+    });
+
+    
+    // Display the current word and translation
+    function updateWord() {
+        const [word, translation] = wordPairs[wordIndex].split('-');
+        wordElement.textContent = word;
+        translationInput.value = '';
+        translationInput.focus();
+        messageElement.textContent = '';
+updateProgressBar();
+translationInput.addEventListener('keydown', handleTranslationInput);
+}
+// Handle translation input
+function handleTranslationInput(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        checkTranslation();
+        wordIndex++;
+        if (wordIndex >= totalWords) {
+            showResults();
+        } else {
+            updateWord();
+        }
+    }
+}
+
+// Update the progress bar
+function updateProgressBar() {
+    const progress = (wordIndex / totalWords) * 100;
+    progressBarFill.style.width = progress + '%';
+}
+
+// Check the translation
+function checkTranslation() {
+    const [word, translation] = wordPairs[wordIndex].split('-');
+    const userTranslation = translationInput.value.trim();
+    if (userTranslation === translation) {
+        correctAnswers++;
+    } else {
+        incorrectWords.push({ word, translation, userTranslation });
+    }
+
+    // Save the entered word in the translation input field
+    translationInput.setAttribute('data-word', word);
+    translationInput.setAttribute('data-translation', translation);
+}
+
+
+// Show the dictation results
+function showResults() {
+    updateProgressBar();
+    const accuracy = (correctAnswers / totalWords) * 100;
+    const popupWordPair = document.querySelector('.popup-word-pair');
+    const popupDescription = document.querySelector('.popup-description-results');
+    popupWordPair.style.display = 'none';
+    popupDescription.textContent = `Dictation complete! Accuracy: ${accuracy.toFixed()}%`;
+
+    translationInput.disabled = true;
+    btnNextWord.disabled = true;
+    btnPrevWord.disabled = true;
+    btnRepeatDictation.disabled = false; // Enable the "Repeat the Dictation" button
+    btnReturnToPrevious.disabled = false; // Enable the "Return to Previous Page" button
+
+    const resultsMessage = document.querySelector('.results-message');
+    if (incorrectWords.length === 0) {
+        resultsMessage.textContent = 'Congratulations!';
+        incorrectWordsList.style.display = 'none';
+    } else {
+        resultsMessage.textContent = 'Wrong words';
+    }
+
+if (incorrectWords.length > 0) {
+  const popupContent = document.querySelector('.popup-content');
+  const incorrectWordsList = document.querySelector('.incorrect-words');
+  const popupButtons = document.querySelector('.popup-buttons');
+  const maxWords = 5;
+  let currentIndex = 0;
+
+  // Update the popup content to show the first 5 incorrect words
+  function updatePopupContent() {
+    const wordsToShow = incorrectWords.slice(currentIndex, currentIndex + maxWords);
+    incorrectWordsList.innerHTML = '';
+    wordsToShow.forEach((wordObj) => {
+      const { word, translation, userTranslation } = wordObj;
+      const listItem = document.createElement('li');
+      listItem.textContent = `${word} - ${translation} (Your answer: ${userTranslation})`;
+      incorrectWordsList.appendChild(listItem);
+    });
+  }
+
+  updatePopupContent();
+
+  // Check if there are items to scroll through
+if (incorrectWords.length > maxWords) {
+  // Add event listener to "Previous" button
+  const btnPrev = document.createElement('button');
+  btnPrev.classList.add('btn-flip-prev');
+  btnPrev.textContent = '<';
+  btnPrev.disabled = true;
+  popupButtons.appendChild(btnPrev);
+  btnPrev.addEventListener('click', () => {
+    currentIndex -= maxWords;
+    updatePopupContent();
+    if (currentIndex === 0) {
+      btnPrev.disabled = true;
+    }
+    btnNext.disabled = false;
+  });
+
+  // Add event listener to "Next" button
+  const btnNext = document.createElement('button');
+  btnNext.classList.add('btn-flip-next');
+  btnNext.textContent = '>';
+  popupButtons.appendChild(btnNext);
+  btnNext.addEventListener('click', () => {
+    currentIndex += maxWords;
+    updatePopupContent();
+    if (currentIndex + maxWords >= incorrectWords.length) {
+      btnNext.disabled = true;
+    }
+    btnPrev.disabled = false;
+  });
+}
+
+}
+    popupOverlay.style.opacity = 1;
+    popupOverlay.style.pointerEvents = 'auto';
+}
+
+// Reset the dictation
+function resetDictation() {
+    wordIndex = 0;
+    correctAnswers = 0;
+    incorrectWords = [];
+    updateWord();
+    translationInput.disabled = false;
+    btnNextWord.disabled = false;
+    btnPrevWord.disabled = false;
+    btnRepeatDictation.disabled = true; // Disable the "Repeat the Dictation" button
+    btnReturnToPrevious.disabled = true; // Disable the "Return to Previous Page" button
+    incorrectWordsList.innerHTML = ''; // Clear the list of incorrect words
+    popupOverlay.style.opacity = 0;
+    popupOverlay.style.pointerEvents = 'none';
+    incorrectWordsList.style.display = 'block';
+
+    // Remove the "btn-flip-prev" and "btn-flip-next" buttons
+    const btnFlipPrev = document.querySelector('.btn-flip-prev');
+    const btnFlipNext = document.querySelector('.btn-flip-next');
+    if (btnFlipPrev) {
+        btnFlipPrev.remove();
+    }
+    if (btnFlipNext) {
+        btnFlipNext.remove();
+    }
+}
+
+// Add event listener to word-pair divs
+const wordPairsDivs = document.querySelectorAll('.word-pair');
+wordPairsDivs.forEach((div) => {
+    div.addEventListener('click', () => {
+        const [word, translation] = wordPairs[wordIndex].split('-');
+        popupWord.textContent = word;
+        popupTranslation.textContent = translation;
+        popupOverlay.style.opacity = 1;
+        popupOverlay.style.pointerEvents = 'auto';
+    });
+});
+
+}
+    </script>
+</body>
+</html>

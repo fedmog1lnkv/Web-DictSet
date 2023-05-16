@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set Details</title>
+	<meta charset="UTF-8">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+		rel="stylesheet">
+    <style>
+        body {
+            margin: 50px 250px 10px 250px ;
+            font-family: 'Titillium Web', sans-serif;
+            background-color: #F8FAFC;
+        }
+
+        .logo {
+            width: 300px;
+            height: 80px;
+            cursor: pointer;
+        }
+
+        header {
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            height: 100px;
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .workplace {
+            display: block;
+            width: 1000px;
+            height: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }   
+
+        .workplace__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0px;
+        }
+
+        .set-name{
+            font-size: 40px;
+            font-weight: 600;
+        }
+
+        .btn-start-dict {
+            width: 175px;
+            height: 50px;
+            background-color: #7C3AED;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            line-height: 24px;
+        }
+        
+        .btn-start-dict:hover {
+            background-color: #6931c9;
+        }
+
+        .btn-start-dict:active {
+            background-color: #572aa5;
+        }
+
+        .btn-add-words {
+            width: 175px;
+            height: 50px;
+            background-color: #7C3AED;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            line-height: 24px;
+        }
+        
+        .btn-add-words:hover {
+            background-color: #6931c9;
+        }
+
+        .btn-add-words:active {
+            background-color: #572aa5;
+        }
+
+        .word-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+            
+        }
+        
+        .word-pair {
+            display: flex;
+            background-color: white;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            border: 2px rgb(207, 207, 207) solid;
+            padding: 10px 10px 10px 10px;
+            border-radius: 6px;
+            box-shadow: 2px 5px 7px rgba(0, 0, 0, 0.144);
+            transition: transform 0.3s ease-in-out, box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+        }
+
+        .word-pair:hover {
+            border-radius: 8px;
+            transform: translateY(-3px);
+            box-shadow: 2px 7px 7px rgba(0, 0, 0, 0.281);
+            border: 2px #969696 solid;
+        }
+
+        .word-pair {
+            cursor: pointer;
+        }
+
+        .word {
+            font-size: 20px;
+        }
+        
+        .translation {
+            font-size: 20px;
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9990;
+            opacity: 0;
+            pointer-events: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .popup-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 800px;
+            width: auto;
+            height: auto;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 10000;
+            padding: 45px 35px 45px 35px;
+        }
+
+        .popup-word-pair {
+            display: flex;
+            text-align: left;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .popup-word, .popup-translation, .popup-description{
+            font-size: 20px;
+        }
+       
+        .popup-word::after {
+            content: " -";
+        }
+
+        .popup-word{
+            margin-right: 5px;
+        }
+
+        .popup-word-title{
+            font-size: 35px;
+            font-weight: 600;
+        }
+
+        .btn-add-one-word {
+            background-color: #7C3AED;
+            border-radius: 50px;
+            color: white;
+            border: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px; 
+            height: 40px; 
+            font-size: 30px; 
+            font-weight: 100;
+            margin: 0 auto; 
+            cursor: pointer;
+        }
+
+        .btn-add-one-word:hover {
+            background-color: #6931c9;
+        }
+
+        .btn-add-one-word:active {
+            background-color: #572aa5;
+        }
+
+        .pagination {
+            /* margin-top: 10px; */
+            margin-bottom: 10px;
+            justify-content: center;
+            align-items: center;
+            text-align: right;
+        }
+
+        .page-number {
+            display: inline-block;
+            margin-right: 5px;
+            padding: 5px 10px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        .page-number:hover {
+            background-color: #e0e0e0;
+        }
+
+        .page-number.active {
+            background-color: #ccc;
+            cursor: default;
+        }
+
+        .add-word-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(5px);
+            z-index: 9991;
+        }
+        
+        .add-word-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .add-word-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: left;
+        }
+
+        .add-word-input, .add-translate-input,
+        .add-description-input {
+        width: 95%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        }
+
+        .add-description-input{
+            height: 50px;
+        }
+
+
+        .btn-add-word {
+            background-color: #7C3AED;
+            border-radius: 5px;
+            color: white;
+            border: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 110px; 
+            height: 30px; 
+            font-size: 14px; 
+            font-weight: 600;
+            margin: 0 auto; 
+            cursor: pointer;
+        }
+
+        .btn-add-word:hover {
+            background-color: #6931c9;
+        }
+
+        .btn-add-word:active {
+            background-color: #572aa5;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <a href="cards.html">
+            <img src="../files/logo.png" alt="Логотип" class="logo">
+        </a>
+    </header>
+
+    <div class="workplace">
+        <div class="workplace__header">
+            <p class="set-name" id="set-name"></p>
+            <button class="btn-start-dict" id="btn-start-dict">START!</button>
+        </div>
+        <div id="pagination" class="pagination"></div>
+        <div id="word-container" class="word-container"></div>
+        <button class="btn-add-one-word">+</button>
+    </div>
+
+     <div class="add-word-popup" id="add-word-popup">
+        <div class="add-word-content">
+            <div class="add-word-title">Add word</div>
+            <input type="text" class="add-word-input" id="add-word-input" placeholder="Word">
+            <input type="text" class="add-translate-input" id="add-translate-input" placeholder="Translation">
+            <input type="text" class="add-description-input" id="add-description-input" placeholder="Description">
+            <button class="btn-add-word" id="btn-add-word">ADD WORD</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay">
+        <div class="popup-content">
+            <div class="popup-word-pair">
+                <div class="popup-word"></div>
+                <div class="popup-translation"></div>
+            </div>
+            <div class="popup-description">Example: Hello, I would like to learn more about the difference between the effect of extracts and ground ganoderma and what it actually is like FORTE5</div>  
+        </div>
+    </div>
+    <script>
+        // Retrieve query parameters
+        const params = new URLSearchParams(window.location.search);
+        const setName = params.get('setName');
+        const words = params.get('words');
+
+        // Display set name
+        const setNameElement = document.getElementById('set-name');
+        setNameElement.textContent = setName;
+
+        // Display words
+        const wordContainer = document.getElementById('word-container');
+        const pagination = document.getElementById('pagination');
+        const pageSize = 7; // Number of words to display per page
+        let currentPage = 1;
+
+        if (words) {
+            const wordPairs = words.split(';');
+
+            const updateWords = () => {
+                wordContainer.innerHTML = ''; // Clear existing words
+
+                const startIndex = (currentPage - 1) * pageSize;
+                const endIndex = startIndex + pageSize;
+                const currentPageWords = wordPairs.slice(startIndex, endIndex);
+
+                currentPageWords.forEach((pair, index) => {
+                    const [word, translation] = pair.split('-');
+
+                    const div = document.createElement('div');
+                    div.classList.add('word-pair');
+
+                    const wordElement = document.createElement('div');
+                    wordElement.classList.add('word');
+                    wordElement.textContent = word;
+
+                    const translationElement = document.createElement('div');
+                    translationElement.classList.add('translation');
+                    translationElement.textContent = translation;
+
+                    div.appendChild(wordElement);
+                    div.appendChild(translationElement);
+
+                    wordContainer.appendChild(div);
+                    // Add click event listener to word-pair divs
+                    div.addEventListener('click', () => {
+                        const popupOverlay = document.querySelector('.popup-overlay');
+                        const popupWord = document.querySelector('.popup-word');
+                        const popupTranslation = document.querySelector('.popup-translation');
+                        popupWord.textContent = word;
+                        popupTranslation.textContent = translation;
+                        popupOverlay.style.opacity = 1;
+                        popupOverlay.style.pointerEvents = 'auto';
+                    });
+
+                    // Close pop-up window when clicking outside the content area
+                    const popupOverlay = document.querySelector('.popup-overlay');
+                    popupOverlay.addEventListener('click', (event) => {
+                        if (event.target === popupOverlay) {
+                            popupOverlay.style.opacity = 0;
+                            popupOverlay.style.pointerEvents = 'none';
+                        }
+                    });
+
+                    // Add event listener to "START!" button
+                    const btnStartDict = document.getElementById('btn-start-dict');
+                    btnStartDict.addEventListener('click', () => {
+                        const queryString = `setName=${encodeURIComponent(setName)}&words=${encodeURIComponent(words)}`;
+                        const dictPageURL = `dict-page.html?${queryString}`;
+                        window.location.href = dictPageURL;
+                    });
+                    
+                });
+
+                updatePagination();
+            };
+
+            const updatePagination = () => {
+            pagination.innerHTML = ''; // Clear pagination
+
+            const numPages = Math.ceil(wordPairs.length / pageSize);
+
+            for (let i = 1; i <= numPages; i++) {
+                const pageNumber = document.createElement('span');
+                pageNumber.classList.add('page-number');
+                pageNumber.textContent = i;
+                pageNumber.addEventListener('click', () => {
+                    currentPage = i;
+                    updateWords();
+                });
+
+                if (i === currentPage) {
+                    pageNumber.classList.add('active');
+                }
+
+                pagination.appendChild(pageNumber);
+            }
+        };
+
+            updateWords();
+            
+        }
+
+        const addButton = document.querySelector('.btn-add-one-word');
+        const popup = document.querySelector('.add-word-popup');
+        const closeButton = document.querySelector('.add-word-popup .btn-add-word');
+        
+        addButton.addEventListener('click', () => {
+            popup.style.display = 'block';
+        });
+        
+        closeButton.addEventListener('click', () => {
+            popup.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (event) => {
+            if (event.target === popup) {
+            popup.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>
