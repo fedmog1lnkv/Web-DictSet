@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Access Platform Login</title>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="left">
+      <div id="login">
+        <img id="logo" src="../files/logo.png" alt="Logo">
+        <h1>Access to the platform</h1>
+        <p>Log in or <a href="../Register/register.html">register</a> to start memorizing words quickly today.</p>
+
+        <form action="login.php" method="post">
+        
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter an e-mail" pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,7}$" required>
+            <div class="error-message"></div>
+            <label for="password">Password</label>
+            <div class="password-input">
+              <input type="password" id="password" name="password" pattern="^.{3,}$" placeholder="Enter the password" required oninvalid="setCustomValidity('Пароль должен быть не менее 5 символов')" oninput="setCustomValidity('')">
+              <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
+            </div>
+
+            <input type="submit" value="LogIn">
+        
+        </form>
+
+      </div>
+    </div>
+    <div class="right"></div>
+  </div>
+
+  <script>
+    const emailInput = document.getElementById("email");
+    const errorMessage = document.querySelector(".error-message");
+    emailInput.addEventListener("input", () => {
+      if (!emailInput.checkValidity()) {
+        emailInput.classList.add("error");
+        errorMessage.textContent = "Invalid email address";
+      } else {
+        emailInput.classList.remove("error");
+        errorMessage.textContent = "";
+      }
+    });
+
+    document.querySelector("form").addEventListener("submit", function(event) {
+  event.preventDefault(); // Предотвращаем отправку формы
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const url = "http://62.84.121.82:8080/api/login";
+  const data = {
+    email: email,
+    password: password
+  };
+  const headers = {
+    "Content-Type": "application/json"
+  };
+
+  fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify(data)
+  })
+    .then(response => response.json())
+    .then(responseData => {
+      if (responseData.success) {
+        const token = responseData.data.token;
+        // Сохранение токена в куки
+        document.cookie = `token=${token}; expires=${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString()}; path=/`;
+
+        // Перенаправление пользователя на страницу cards.html
+        window.location.href = "../Cards/cards.html";
+      } else {
+        console.log("Login failed. Please try again.");
+      }
+    })
+    .catch(error => {
+      console.error("Curl error:", error);
+    });
+});
+  </script>
+
+  <script src="../files/scripts/custom_eye_password.js"></script>
+    
+</body>
+
+</html>
