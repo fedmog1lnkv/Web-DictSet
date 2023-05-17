@@ -19,7 +19,7 @@
         <h1>Access to the platform</h1>
         <p><a href="../Login/login.html">Log in</a> or register to start memorizing words quickly today.</p>
         
-        <form action="register.php" method="post">
+        <form id="registerForm" method="post">
           
           <label for="nickname">Nickname</label>
           <input type="text" id="nickname" name="nickname" placeholder="Enter nickname" required>
@@ -31,7 +31,7 @@
             <input type="password" id="password" name="password" pattern="^.{3,}$" placeholder="Enter the password" required oninvalid="setCustomValidity('Пароль должен быть не менее 5 символов')" oninput="setCustomValidity('')">
             <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
           </div>
-          <input type="submit" onclick="register()" value="Register">
+          <input type="submit" value="Register">
         </form>
       </div>
     </div>
@@ -50,6 +50,35 @@
         emailInput.classList.remove("error");
         errorMessage.textContent = "";
       }
+    });
+
+    const registerForm = document.getElementById("registerForm");
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault(); // Prevent form submission
+
+      const url = "http://62.84.121.82:8080/api/register";
+      const data = {
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+      };
+
+      const headers = {
+        "Content-Type": "application/json"
+      };
+
+      fetch(url, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(data)
+      })
+        .then(response => response.text())
+        .then(response => {
+          console.log(response);
+          // Handle the response as needed
+        })
+        .catch(error => {
+          console.error(error);
+        });
     });
   </script>
 
