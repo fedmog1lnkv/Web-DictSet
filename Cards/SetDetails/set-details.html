@@ -92,7 +92,7 @@
                 const wordsString = data.data.words.map(word => `${word.word}-${word.translate}`).join(';');
                 const btnStartDict = document.getElementById('btn-start-dict');   
                 btnStartDict.addEventListener('click', function() {
-                const dictPageUrl = `DictPage/dict-page.html?words=${encodeURIComponent(wordsString)}`;
+                const dictPageUrl = `../DictPage/dict-page.html?words=${encodeURIComponent(wordsString)}`;
                 window.location.href = dictPageUrl;
             });
 
