@@ -1,0 +1,135 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+}
+
+.left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F8FAFC;
+}
+
+.right {
+    flex: 1;
+    background-image: url("../files/fon.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-width: calc(100% - 50%);
+}
+
+/* стили для блока логина */
+#register {
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+}
+
+#logo {
+    max-width: 350px;
+    margin: 0 0 50px;
+    ;
+    display: block;
+}
+
+h1 {
+    font-size: 36px;
+    margin: 0 0 30px;
+    text-align: left;
+}
+
+p {
+    font-size: 20px;
+    margin: 0 0 40px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-align: left;
+    float: left;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    height: 55px;
+    margin: 8px 0 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    height: 55px;
+    background-color: #7C3AED;
+    color: white;
+    margin: 15px 0 0px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #6f32d8;
+}
+
+.password-input {
+    position: relative;
+}
+
+.password-input input[type="password"] {
+    padding-right: 30px;
+}
+
+.password-input .toggle-password {
+    position: absolute;
+    top: 58%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    width: 25px;
+    height: 25px;
+    background-image: url('../files/eye-open.svg');
+    color: purple;
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.password-input .toggle-password.show-password {
+    background-image: url('../files/eye-closed.svg');
+}
+
+input:required:valid {
+    border: 2px solid rgb(2, 146, 50);
+}
+
+input.error {
+    border: 2px solid rgba(226, 28, 28, 0.877);
+    background-color:  #ffe6e0;
+}
+
+.error-message {
+  margin-top: -10px;
+  font-size: 15px;
+}
