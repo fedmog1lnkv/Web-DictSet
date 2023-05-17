@@ -66,7 +66,7 @@
         <div>Insert the words into the form</div>
         <div>By default, the separator between the columns is Tab, between the lines Enter</div>
     </div>
-      <textarea id="add-words-input" class="add-words-input" placeholder="Word 1 Translate 1 Description 1&#10;Word 2 Translate 2 Description 2" ></textarea>
+      <textarea class="add-words-input" placeholder="Word 1 Translate 1 Description 1&#10;Word 2 Translate 2 Description 2" ></textarea>
       <button class="add-words-button">ADD WORDS</button>
     </div>
   </div>
@@ -238,54 +238,8 @@ window.addEventListener('click', (event) => {
     }
   });
 
-addWordsButton.addEventListener('click', () => {
-  const wordsList = addWordsInput.value;
-  const wordsArray = wordsList.split('\n');
-  addWordsModal.style.display = 'none';
-  addWordsInput.value = '';
-});
-
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const deleteButtons = document.querySelectorAll('.delete-word');
-        
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const token = params.get('token');
-                const setId = params.get('id');
-                const wordPair = this.parentNode;
-                console.log(wordPair);
-                const wordPairId = wordPair.classList[1].replace('id-', '');
-                
-                const apiUrl = 'http://62.84.121.82:8080/api/Set/deleteWords';
-                const data = {
-                    accessToken: token,
-                    setId: setId,
-                    IdWordsForDelete: [wordPairId]
-                };
-                
-                fetch(apiUrl, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(result => {
-                    console.log(result);
-                    wordPair.remove();
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-            });
-        });
-    });
-</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -313,7 +267,7 @@ addWordsButton.addEventListener('click', () => {
                 .then(response => response.json())
                 .then(result => {
                     console.log(result);
-                    window.location.href = "./cards.html";
+                    window.location.href = "../cards.html";
                 })
                 .catch(error => {
                     console.error(error);
@@ -376,6 +330,58 @@ addWordsButton.addEventListener('click', () => {
     });
 </script>
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+  const addWordsButton = document.querySelector('.add-words-button');
+  
+  addWordsButton.addEventListener('click', function() {
+    const wordsInput = document.querySelector('.add-words-input');
+    const wordsData = wordsInput.value.trim().split('\n');
+    
+    const wordsForAdd = wordsData.map(word => {
+      const [wordValue, translateValue, descriptionValue] = word.split('|');
+      return {
+        Word: wordValue,
+        Translate: translateValue,
+        Description: descriptionValue
+      };
+    });
+    
+
+    console.log(wordsForAdd);
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const setId = params.get('id');
+    
+    const apiUrl = 'http://62.84.121.82:8080/api/Set/addWords';
+    const data = {
+      accessToken: token,
+      setId: setId,
+      WordsForAdd: wordsForAdd
+    };
+    
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+      console.log(result);
+      window.location.reload();
+      // Дополнительные действия после успешного выполнения запроса
+    })
+    .catch(error => {
+      console.error(error);
+      // Дополнительные действия в случае ошибки
+    });
+  });
+});
+
+</script>
 </body>
 
 </html>
