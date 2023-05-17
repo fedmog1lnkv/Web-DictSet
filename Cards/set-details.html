@@ -39,7 +39,7 @@
         }   
 
         .workplace__header {
-            display: flex;
+            display: block;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 0px;
@@ -48,11 +48,12 @@
         .set-name{
             font-size: 40px;
             font-weight: 600;
+            margin: 0;
         }
 
         .btn-start-dict {
-            width: 175px;
-            height: 50px;
+            width: 150px;
+         
             background-color: #7C3AED;
             color: #fff;
             border: none;
@@ -100,34 +101,45 @@
         }
         
         .word-pair {
-            display: flex;
+            display: block;
             background-color: white;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            border: 2px rgb(207, 207, 207) solid;
+            margin-bottom: 20px;
+            /* border: 2px rgb(207, 207, 207) solid; */
             padding: 10px 10px 10px 10px;
             border-radius: 6px;
-            box-shadow: 2px 5px 7px rgba(0, 0, 0, 0.144);
+            box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.144);
             transition: transform 0.3s ease-in-out, box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+            cursor: pointer;
+            
         }
 
         .word-pair:hover {
             border-radius: 8px;
             transform: translateY(-3px);
-            box-shadow: 2px 7px 7px rgba(0, 0, 0, 0.281);
-            border: 2px #969696 solid;
+            box-shadow: 0px 5px 5px hsla(0, 0%, 0%, 0.219); 
         }
 
-        .word-pair {
-            cursor: pointer;
+        .word-div{
+            display: flex;
+            text-align: left;
+            font-size: 20px;
+            font-weight: 600;
         }
 
         .word {
-            font-size: 20px;
+            margin-right: 5px;
         }
-        
-        .translation {
-            font-size: 20px;
+
+        .word::after{
+            content: " -";
+        }
+    
+
+        .description{
+            font-size: 18px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .popup-overlay {
@@ -152,8 +164,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 800px;
-            width: auto;
+            width: 700px;
             height: auto;
             background-color: white;
             border-radius: 6px;
@@ -161,7 +172,7 @@
             padding: 20px;
             box-sizing: border-box;
             z-index: 10000;
-            padding: 45px 35px 45px 35px;
+            padding: 30px 25px 30px 25px;
         }
 
         .popup-word-pair {
@@ -190,7 +201,7 @@
 
         .btn-add-one-word {
             background-color: #7C3AED;
-            border-radius: 50px;
+            border-radius: 5px;
             color: white;
             border: 0;
             display: flex;
@@ -259,12 +270,13 @@
             padding: 20px;
             border-radius: 5px;
             text-align: center;
+            width: 625px;
         }
 
         .add-word-title {
         font-size: 24px;
         font-weight: bold;
-        margin-bottom: 10px;
+        /* margin-bottom: 10px; */
         text-align: left;
         }
 
@@ -306,6 +318,180 @@
             background-color: #572aa5;
         }
 
+        /* Новое */
+        
+        
+.add-word-content-header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+
+.add-many-words-button {
+  background-color: #ffffff;
+  color: #7C3AED;
+  border: 0;
+  width: auto; 
+  height: auto; 
+  font-size: 14px;
+  font-weight: 600; 
+  padding: 0;
+  cursor: pointer;
+}
+
+.add-many-words-button:hover {
+  color: #6931c9;
+}
+
+.add-many-words-button:active {
+  color: #572aa5;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left;
+  margin-top: 10px;
+}
+
+.modal-description {
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.add-words-input {
+  width: 96%;
+  height: 125px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-words-button {
+  background-color: #7C3AED;
+  border-radius: 5px;
+  color: white;
+  border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 110px; 
+  height: 30px; 
+  font-size: 14px; 
+  font-weight: 600;
+  margin: 0 auto; 
+  cursor: pointer;
+}
+
+.add-words-button:hover {
+  background-color: #6931c9;
+}
+
+.add-words-button:active {
+  background-color: #572aa5;
+}
+
+
+/* НОВЕЙ */
+.add-words-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  transition: opacity 0.3s ease;
+  /* backdrop-filter: blur(5px); */
+  z-index: 9992;
+}
+
+.modal-content{
+    position: absolute;
+    min-width: 626px;
+    min-height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;    
+}
+
+.search-box {
+    width: 100%;
+    height: 55px;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
+.workplace__search {
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.close-add-word-popup, .close-add-words-modal, .close-word-popup {
+  position: absolute;
+  color: #E2E8F0;
+  top: -8px;
+  right: 10px;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-add-word-popup:hover, .close-add-words-modal:hover, .close-word-popup:hover{
+    color: #c5ced8;
+}
+
+hr{ 
+    background-color: black;
+    border: 1px black solid;
+    width: 1000px;
+    margin-bottom: 20px;
+}
+
+/* .word-pair {
+    text-align: center;
+} */
+
+.delete-word { 
+    position: absolute;
+    font-size: 16px;
+    bottom: 8px;
+    right: 7px;
+    opacity: 0.5;
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+    }
+
+    .delete-word:hover { 
+    opacity: 1;
+    }
+
+
+    .word-pair .delete-word {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.word-pair:hover .delete-word {
+  opacity: 1;
+}
+
+
     </style>
 </head>
 <body>
@@ -318,16 +504,36 @@
     <div class="workplace">
         <div class="workplace__header">
             <p class="set-name" id="set-name"></p>
-            <button class="btn-start-dict" id="btn-start-dict">START!</button>
+            <hr>
+        </div>
+        <div class="workplace__search">
+            <input type="text" placeholder="Find Word 🔎" class="search-box">
+            <button class="btn-start-dict" id="btn-start-dict">start</button>
         </div>
         <div id="pagination" class="pagination"></div>
         <div id="word-container" class="word-container"></div>
         <button class="btn-add-one-word">+</button>
     </div>
 
+    <div class="popup-overlay">
+        <div class="popup-content">
+            <span class="close-word-popup">&times;</span>
+            <button class="delete-word">🗑️</button>
+            <div class="popup-word-pair">
+                <div class="popup-word"></div>
+                <div class="popup-translation"></div>   
+            </div>
+            <div class="popup-description"></div>  
+        </div>
+    </div>
+
      <div class="add-word-popup" id="add-word-popup">
         <div class="add-word-content">
-            <div class="add-word-title">Add word</div>
+            <span class="close-add-word-popup">&times;</span>
+            <div class="add-word-content-header">
+                <div class="add-word-title">Add word</div>
+                <button class="add-many-words-button">Many words</button>
+            </div>
             <input type="text" class="add-word-input" id="add-word-input" placeholder="Word">
             <input type="text" class="add-translate-input" id="add-translate-input" placeholder="Translation">
             <input type="text" class="add-description-input" id="add-description-input" placeholder="Description">
@@ -335,136 +541,310 @@
         </div>
     </div>
 
-    <div class="popup-overlay">
-        <div class="popup-content">
-            <div class="popup-word-pair">
-                <div class="popup-word"></div>
-                <div class="popup-translation"></div>
-            </div>
-            <div class="popup-description">Example: Hello, I would like to learn more about the difference between the effect of extracts and ground ganoderma and what it actually is like FORTE5</div>  
-        </div>
+    <!-- Modal window -->
+<div class="add-words-modal">
+    <div class="modal-content">
+        <span class="close-add-words-modal">&times;</span>
+      <div class="modal-title">Add words as a list</div>
+      <div class="modal-description">
+        <div>Insert the words into the form</div>
+        <div>By default, the separator between the columns is Tab, between the lines Enter</div>
     </div>
+      <textarea id="add-words-input" class="add-words-input" placeholder="Word 1 Translate 1 Description 1&#10;Word 2 Translate 2 Description 2" ></textarea>
+      <button class="add-words-button">ADD WORDS</button>
+    </div>
+  </div>
+
     <script>
-        // Retrieve query parameters
-        const params = new URLSearchParams(window.location.search);
-        const setName = params.get('setName');
-        const words = params.get('words');
+    const params = new URLSearchParams(window.location.search);
+  const setName = params.get('setName');
+  const words = params.get('words');
 
-        // Display set name
-        const setNameElement = document.getElementById('set-name');
-        setNameElement.textContent = setName;
+  // Отправить запрос на сервер для получения данных по токену и id
+  const token = params.get('token');
+  const setId = params.get('id');
+  const apiUrl = `http://62.84.121.82:8080/api/Set/${token}/${setId}`;
 
-        // Display words
-        const wordContainer = document.getElementById('word-container');
-        const pagination = document.getElementById('pagination');
-        const pageSize = 7; // Number of words to display per page
-        let currentPage = 1;
+  fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const setInfo = data.data.setInfo;
 
-        if (words) {
-            const wordPairs = words.split(';');
+                console.log(setInfo)
 
-            const updateWords = () => {
-                wordContainer.innerHTML = ''; // Clear existing words
+                const words = data.data.words;
+                const wordsString = data.data.words.map(word => `${word.word}-${word.translate}`).join(';');
+                const btnStartDict = document.getElementById('btn-start-dict');   
+                btnStartDict.addEventListener('click', function() {
+                const dictPageUrl = `dict-page.html?words=${encodeURIComponent(wordsString)}`;
+                window.location.href = dictPageUrl;
+            });
 
-                const startIndex = (currentPage - 1) * pageSize;
-                const endIndex = startIndex + pageSize;
-                const currentPageWords = wordPairs.slice(startIndex, endIndex);
 
-                currentPageWords.forEach((pair, index) => {
-                    const [word, translation] = pair.split('-');
+                console.log(words);
 
-                    const div = document.createElement('div');
-                    div.classList.add('word-pair');
+                // Обновление названия сета
+                const setNameElement = document.getElementById('set-name');
+                setNameElement.textContent = setInfo.name;
 
-                    const wordElement = document.createElement('div');
-                    wordElement.classList.add('word');
-                    wordElement.textContent = word;
+                // Остальная обработка полученных данных
+                const wordContainer = document.getElementById('word-container');
+                const pagination = document.getElementById('pagination');
+                const pageSize = 7; // Number of words to display per page
+                let currentPage = 1;
 
-                    const translationElement = document.createElement('div');
-                    translationElement.classList.add('translation');
-                    translationElement.textContent = translation;
+                const updateWords = () => {
+                    wordContainer.innerHTML = ''; // Clear existing words
 
-                    div.appendChild(wordElement);
-                    div.appendChild(translationElement);
+                    const startIndex = (currentPage - 1) * pageSize;
+                    const endIndex = startIndex + pageSize;
+                    const currentPageWords = words.slice(startIndex, endIndex);
 
-                    wordContainer.appendChild(div);
-                    // Add click event listener to word-pair divs
-                    div.addEventListener('click', () => {
-                        const popupOverlay = document.querySelector('.popup-overlay');
-                        const popupWord = document.querySelector('.popup-word');
-                        const popupTranslation = document.querySelector('.popup-translation');
-                        popupWord.textContent = word;
-                        popupTranslation.textContent = translation;
-                        popupOverlay.style.opacity = 1;
-                        popupOverlay.style.pointerEvents = 'auto';
+                    currentPageWords.forEach((word) => {
+                        const wordId = word.id
+
+                        const div = document.createElement('div');
+                        div.classList.add('word-pair');
+                        div.classList.add(`id-${wordId}`);
+
+                        const wordDiv = document.createElement('div');
+                        wordDiv.classList.add('word-div');
+
+                        const wordElement = document.createElement('div');
+                        wordElement.classList.add('word');
+                        wordElement.textContent = word.word;
+
+                        const translationElement = document.createElement('div');
+                        translationElement.classList.add('translation');
+                        translationElement.textContent = word.translate;
+
+                        const descriptionElement = document.createElement('div');
+                        descriptionElement.classList.add('description');
+                        descriptionElement.textContent = word.description;
+
+                        div.appendChild(wordDiv);
+                        wordDiv.appendChild(wordElement);
+                        wordDiv.appendChild(translationElement);
+                        div.appendChild(descriptionElement);
+
+                        wordContainer.appendChild(div);
+
+                        // Add click event listener to word-pair divs
+                        div.addEventListener('click', () => {
+                            const popupOverlay = document.querySelector('.popup-overlay');
+                            const popupWordPair = document.querySelector('.popup-word-pair');
+                            const popupWord = popupWordPair.querySelector('.popup-word');
+                            const popupTranslation = popupWordPair.querySelector('.popup-translation');
+                            const popupDescription = document.querySelector('.popup-description');
+                            const wordId = word.id;
+
+                            // Переносим айди в класс popup-word-pair
+                            const popupContent= document.querySelector('.popup-content');
+                            popupContent.classList.add(`id-${wordId}`);
+
+                            popupWord.textContent = word.word;
+                            popupTranslation.textContent = word.translate;
+                            popupDescription.textContent = word.description;
+                            popupOverlay.style.opacity = 1;
+                            popupOverlay.style.pointerEvents = 'auto';
+                        });
+
+                   
+
+                    });
+updatePagination();
+            };
+
+            const updatePagination = () => {
+                pagination.innerHTML = ''; // Clear pagination
+
+                const numPages = Math.ceil(words.length / pageSize);
+
+                for (let i = 1; i <= numPages; i++) {
+                    const pageNumber = document.createElement('span');
+                    pageNumber.classList.add('page-number');
+                    pageNumber.textContent = i;
+                    pageNumber.addEventListener('click', () => {
+                        currentPage = i;
+                        updateWords();
                     });
 
-                    // Close pop-up window when clicking outside the content area
-                    const popupOverlay = document.querySelector('.popup-overlay');
-                    popupOverlay.addEventListener('click', (event) => {
-                        if (event.target === popupOverlay) {
+                    if (i === currentPage) {
+                        pageNumber.classList.add('active');
+                    }
+
+                    pagination.appendChild(pageNumber);
+                }
+            };
+
+            updateWords();
+        })
+        .catch(error => console.error(error));
+
+    const addButton = document.querySelector('.btn-add-one-word');
+    const popup = document.querySelector('.add-word-popup');
+    const closeButton = document.querySelector('.add-word-popup .btn-add-word');
+
+    addButton.addEventListener('click', () => {
+        popup.style.display = 'block';
+    });
+
+    closeButton.addEventListener('click', () => {
+        popup.style.display = 'none';
+    });
+
+
+    const closeWordModal = document.querySelector('.close-add-word-popup');
+    window.addEventListener('click', (event) => {
+        if (event.target === popup || event.target === closeWordModal) {
+            popup.style.display = 'none';
+        }
+    });
+
+    const closeWordPopup = document.querySelector('.close-word-popup')
+    window.addEventListener('click', (event) => {
+                        const popupOverlay = document.querySelector('.popup-overlay');
+                        if (event.target === popupOverlay || event.target === closeWordPopup) {
                             popupOverlay.style.opacity = 0;
                             popupOverlay.style.pointerEvents = 'none';
                         }
                     });
 
-                    // Add event listener to "START!" button
-                    const btnStartDict = document.getElementById('btn-start-dict');
-                    btnStartDict.addEventListener('click', () => {
-                        const queryString = `setName=${encodeURIComponent(setName)}&words=${encodeURIComponent(words)}`;
-                        const dictPageURL = `dict-page.html?${queryString}`;
-                        window.location.href = dictPageURL;
-                    });
-                    
-                });
+                    const addWordButton = document.querySelector('.add-many-words-button');
+const addWordsModal = document.querySelector('.add-words-modal');
+const addWordsInput = document.querySelector('.add-words-input');
+const addWordsButton = document.querySelector('.add-words-button');
 
-                updatePagination();
-            };
+addWordButton.addEventListener('click', () => {
+  addWordsModal.style.display = 'block';
+});
 
-            const updatePagination = () => {
-            pagination.innerHTML = ''; // Clear pagination
+const closeWordsModal = document.querySelector('.close-add-words-modal');
+window.addEventListener('click', (event) => {
+    if (event.target === addWordsModal || event.target === closeWordsModal) {
+      addWordsModal.style.display = 'none';
+    }
+  });
 
-            const numPages = Math.ceil(wordPairs.length / pageSize);
+  
+addWordsButton.addEventListener('click', () => {
+  const wordsList = addWordsInput.value;
+  const wordsArray = wordsList.split('\n');
+  addWordsModal.style.display = 'none';
+  addWordsInput.value = '';
+});
 
-            for (let i = 1; i <= numPages; i++) {
-                const pageNumber = document.createElement('span');
-                pageNumber.classList.add('page-number');
-                pageNumber.textContent = i;
-                pageNumber.addEventListener('click', () => {
-                    currentPage = i;
-                    updateWords();
-                });
 
-                if (i === currentPage) {
-                    pageNumber.classList.add('active');
-                }
-
-                pagination.appendChild(pageNumber);
-            }
-        };
-
-            updateWords();
-            
-        }
-
-        const addButton = document.querySelector('.btn-add-one-word');
-        const popup = document.querySelector('.add-word-popup');
-        const closeButton = document.querySelector('.add-word-popup .btn-add-word');
-        
-        addButton.addEventListener('click', () => {
-            popup.style.display = 'block';
-        });
-        
-        closeButton.addEventListener('click', () => {
-            popup.style.display = 'none';
-        });
-        
-        window.addEventListener('click', (event) => {
-            if (event.target === popup) {
-            popup.style.display = 'none';
-            }
-        });
     </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.delete-word');
+        
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const token = params.get('token');
+                const setId = params.get('id');
+                const wordPair = this.parentNode;
+                console.log(wordPair);
+                const wordPairId = wordPair.classList[1].replace('id-', '');
+                
+                const apiUrl = 'http://62.84.121.82:8080/api/Set/deleteWords';
+                const data = {
+                    accessToken: token,
+                    setId: setId,
+                    IdWordsForDelete: [wordPairId]
+                };
+                
+                fetch(apiUrl, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    // Обработка успешного ответа от сервера
+                    // Например, удаление соответствующего элемента из DOM
+                    wordPair.remove();
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error(error);
+                    // Обработка ошибки при выполнении запроса
+                });
+            });
+        });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var addWordsButton = document.querySelector('.add-words-button');
+        var addWordsInput = document.querySelector('#add-words-input');
+        var addWordButton = document.getElementById("btn-add-word");
+        var wordInput = document.getElementById("add-word-input");
+        var translateInput = document.getElementById("add-translate-input");
+        var descriptionInput = document.getElementById("add-description-input");
+
+        addWordsButton.addEventListener('click', function() {
+            var inputText = addWordsInput.value.trim();
+
+            if (inputText === '') {
+                alert("You haven't entered anything");
+                return;
+            }
+
+        
+        });
+
+        addWordButton.addEventListener("click", function() {
+            if (wordInput.value === "" || translateInput.value === "" || descriptionInput.value === "") {
+                alert("You have not filled in one of the fields");
+                return;
+            } else {
+                const word = wordInput.value;
+
+                const translation = translateInput.value;
+                const description = descriptionInput.value;
+
+                const params = new URLSearchParams(window.location.search);
+                const token = params.get('token');
+                const setId = params.get('id');
+
+                const apiUrl = 'http://62.84.121.82:8080/api/Set/addWords';
+                const data = {
+                    accessToken: token,
+                    setId: setId,
+                    WordsForAdd: [{
+                        Word: word,
+                        Translate: translation,
+                        Description: description
+                    }]
+                };
+
+                fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log(result);
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

@@ -30,7 +30,7 @@
         .progress-bar-fill {
             border-radius: 10px;
             height: 100%;
-            background-color: #7C3AED;
+            background: linear-gradient(147.19deg, #F6A2A9 30.4%, #BD52FF 106%);
             width: 0;
         }
 
@@ -51,18 +51,16 @@
         .translation-input {
             width: 30%;
             height: 5%;
-            font-size: 14px;
+            font-size: 20px;
             padding: 10px 10px 10px 10px;
+            border-radius: 10px;
+            border: 2px solid #ccc;
         }
 
         .word {
             font-size: 50px;
             font-weight: bold;
             margin-bottom: 16px;
-        }
-
-        .translation-input {
-            font-size: 25px;
         }
 
         /* Add CSS styles for navigation buttons */
@@ -126,11 +124,11 @@
         }
 
         
-        .btn-prev-word, .btn-next-word{
+        .btn-skip-word, .btn-next-word {
             background-color: #7C3AED;
             color: white;
-            height: 50px;
-            width: 140px;
+            height: 40px;
+            width: 120px;
             padding: 10px 10px;
             border: none;
             border-radius: 5px;
@@ -139,13 +137,27 @@
             font-weight: 600;
         }
 
-        .btn-prev-word:hover, .btn-next-word:hover {
+        .btn-skip-word:hover, .btn-next-word:hover {
             background-color: #6931c9;
         }
 
-        .btn-prev-word:active, .btn-next-word:active {
+        .btn-skip-word:active, .btn-next-word:active {
             background-color: #572aa5;
         }
+
+        .btn-flip-prev, .btn-flip-next{
+            font-size: 16x;
+            color: #7C3AED;
+            padding: 5px;
+        }
+
+        .message{
+            position: absolute;
+            color: black;
+            top: 53%;
+            right: 47%;
+        }
+
 
     </style>
 </head>
@@ -161,8 +173,8 @@
             <div class="message"></div>
         </div>
         <div class="navigation-buttons">
-            <button class="btn-prev-word">PREVIOUS</button>
-            <button class="btn-next-word">NEXT</button>
+            <button class="btn-skip-word">skip</button>
+            <button class="btn-next-word">next</button>
         </div>
 
         </div>
@@ -212,9 +224,27 @@ if (words) {
 
     updateWord();
 
-    // Add event listener to "Next Word" button
-    const btnNextWord = document.querySelector('.btn-next-word');
-    btnNextWord.addEventListener('click', () => {
+   // Add event listener to "Next Word" button
+const btnNextWord = document.querySelector('.btn-next-word');
+btnNextWord.addEventListener('click', () => {
+    if (translationInput.value === '') {
+        messageElement.textContent = 'Enter the word';
+        return;
+    }
+    
+    checkTranslation();
+    wordIndex++;
+    if (wordIndex >= totalWords) {
+        showResults();
+    } else {
+        updateWord();
+    }
+});
+
+
+    // Add event listener to "Skip Word" button
+    const btnSkipWord = document.querySelector('.btn-skip-word');
+    btnSkipWord.addEventListener('click', () => {
         checkTranslation();
         wordIndex++;
         if (wordIndex >= totalWords) {
@@ -222,16 +252,6 @@ if (words) {
         } else {
             updateWord();
         }
-    });
-
-    // Add event listener to "Previous Word" button
-    const btnPrevWord = document.querySelector('.btn-prev-word');
-    btnPrevWord.addEventListener('click', () => {
-        wordIndex--;
-        if (wordIndex < 0) {
-            wordIndex = 0;
-        }
-        updateWord();
     });
 
     // Add event listener to "Repeat the Dictation" button
@@ -260,6 +280,10 @@ translationInput.addEventListener('keydown', handleTranslationInput);
 // Handle translation input
 function handleTranslationInput(event) {
     if (event.key === 'Enter') {
+        if (translationInput.value === '') {
+        messageElement.textContent = 'Enter the word';
+        return;
+    }
         event.preventDefault();
         checkTranslation();
         wordIndex++;
@@ -304,7 +328,7 @@ function showResults() {
 
     translationInput.disabled = true;
     btnNextWord.disabled = true;
-    btnPrevWord.disabled = true;
+    btnSkipWord.disabled = true;
     btnRepeatDictation.disabled = false; // Enable the "Repeat the Dictation" button
     btnReturnToPrevious.disabled = false; // Enable the "Return to Previous Page" button
 
@@ -382,7 +406,7 @@ function resetDictation() {
     updateWord();
     translationInput.disabled = false;
     btnNextWord.disabled = false;
-    btnPrevWord.disabled = false;
+    btnSkipWord.disabled = false;
     btnRepeatDictation.disabled = true; // Disable the "Repeat the Dictation" button
     btnReturnToPrevious.disabled = true; // Disable the "Return to Previous Page" button
     incorrectWordsList.innerHTML = ''; // Clear the list of incorrect words

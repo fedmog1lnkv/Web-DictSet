@@ -22,12 +22,6 @@
 			</div>
 			<div class="workplace__search">
 				<input type="text" placeholder="Find Set 🔎" class="search-box">
-				<div class="search-sort">
-					<select>
-						<option value="name">Order by name</option>
-						<option value="alphabet">her znaet</option>
-					 </select>
-				</div>
 			</div>
 			<div class="card-set">
 				<!-- Пример карточки -->
@@ -42,73 +36,98 @@
 			</div>
 			<div class="popup-container-create-set">
 				<div class="popup-create-set">
+					<span class="close-popup-container">&times;</span>
 				  <h2>Enter the name of the set</h2>
-				  <input type="text" placeholder="Set name">
+				  <input type="text" placeholder="Set name" id="setNameInput">
 				  <button class="create-button">CREATE</button>
 				</div>
 			</div>
         </div>
 	</main>
-	<script src="https://cdn.jsdelivr.net/npm/randomcolor/randomColor.min.js"></script>
-	<script>
-        const cardSet = document.querySelector('.card-set');
-        fetch('sets.json')
-            .then(response => response.json())
-            .then(data => {
-                data.sets.forEach(set => {
-                    const card = document.createElement('div');
-                    card.classList.add('card');
-                    cardSet.appendChild(card);
-                    
-                    card.addEventListener('click', () => {
-                        // Open the new HTML page with set details
-                        window.location.href = 'set-details.html?setName=' + encodeURIComponent(set.name) + '&words=' + encodeURIComponent(set.words);
-                    });
 
-                    const cardContent = document.createElement('div');
-                    cardContent.classList.add('card-content');
-                    card.appendChild(cardContent);
-    
-                    // Set name
-                    const cardTitle = document.createElement('div');
-                    cardTitle.classList.add('card-title');
-                    cardTitle.textContent = set.name;
-                    cardContent.appendChild(cardTitle);
-    
-                    // Word count
-                    const cardWordCount = document.createElement('div');
-                    cardWordCount.classList.add('card-word-count');
-                    const words = set.words && set.words.length > 0 ? set.words[0].split(';') : [];
-                    const wordCount = words.length;
-                    cardWordCount.textContent = wordCount + ' words';
-                    cardContent.appendChild(cardWordCount);
-    
-                    // Card line
-                    const cardLine = document.createElement('div');
-                    cardLine.classList.add('card-line');
-                    cardContent.appendChild(cardLine);
-    
-                    // Learn button
-                    const cardLearn = document.createElement('div');
-                    cardLearn.classList.add('card-learn');
-                    cardLearn.textContent = 'Learn';
-                    cardContent.appendChild(cardLearn);
-    
-                    // Background color
-                    const color = randomColor();
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 300;
-                    canvas.height = 300;
-    
-                    const ctx = canvas.getContext('2d');
-                    ctx.fillStyle = color;
-                    ctx.fillRect(0, 0, 300, 300);
-    
-                    card.style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
-                });
-            })
-            .catch(error => console.error(error));
-    </script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/randomcolor/randomColor.min.js"></script>
+
+
+	<script>
+		const cardSet = document.querySelector('.card-set');
+	
+		// Получение значения токена из куки
+		const token = document.cookie.split(';').map(cookie => cookie.split('=')).find(([key, value]) => key.trim() === 'token');
+		if (token) {
+			const apiUrl = `http://62.84.121.82:8080/api/Set/${token[1]}`;
+			console.log(apiUrl);
+			// Запрос к API для получения данных
+			fetch(apiUrl)
+  .then(response => response.json())
+  .then(data => {
+    data.data.forEach(item => {
+      const { name, countWords, id } = item;
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.classList.add(`card-id-${id}`);
+	  card.setAttribute('data-name', name); // Добавлен атрибут data-name
+	  card.setAttribute('data-id', id); // Добавлен атрибут data-id
+      cardSet.appendChild(card);
+
+      const cardContent = document.createElement('div');
+      cardContent.classList.add('card-content');
+      card.appendChild(cardContent);
+
+      const cardTitle = document.createElement('div');
+      cardTitle.classList.add('card-title');
+      cardTitle.textContent = name;
+      cardContent.appendChild(cardTitle);
+
+      const cardWordCount = document.createElement('div');
+      cardWordCount.classList.add('card-word-count');
+      cardWordCount.textContent = countWords + ' words';
+      cardContent.appendChild(cardWordCount);
+
+      const cardLine = document.createElement('div');
+      cardLine.classList.add('card-line');
+      cardContent.appendChild(cardLine);
+
+      const cardLearn = document.createElement('div');
+      cardLearn.classList.add('card-learn');
+      cardLearn.textContent = 'Learn';
+      cardContent.appendChild(cardLearn);
+
+      const color = randomColor();
+      const canvas = document.createElement('canvas');
+      canvas.width = 300;
+      canvas.height = 300;
+
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = color;
+      ctx.fillRect(0, 0, 300, 300);
+
+      card.style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
+    });
+	const cards = document.querySelectorAll('.card');
+  
+  cards.forEach(card => {
+	card.addEventListener('click', () => {
+	  const name = card.getAttribute('data-name');
+	  const id = card.getAttribute('data-id');
+	  const token = document.cookie
+		.split(';')
+		.map(cookie => cookie.split('='))
+		.find(([key, value]) => key.trim() === 'token');
+
+	  const queryParams = new URLSearchParams({
+		name,
+		id,
+		token: token ? token[1] : ''
+	  });
+
+	  window.location.href = `set-details.html?${queryParams.toString()}`;
+	});
+  });
+  })
+  .catch(error => console.error(error));
+		}
+	</script>
 
 	<!-- Кнопка создать сет -->
 	<script>
@@ -123,18 +142,61 @@
 		input.focus();
 		});
 
+
+		const closePopupContainer = document.querySelector('.close-popup-container');
 		popupContainer.addEventListener('click', (e) => {
-		if (e.target === popupContainer) {
+		if (e.target === popupContainer || e.target === closePopupContainer) {
 			popupContainer.style.display = 'none';
 		}
 		});
 
-		createButton.addEventListener('click', () => {
-		const setName = input.value;
-		console.log(`Set name: ${setName}`);
-		popupContainer.style.display = 'none';
-		input.value = '';
-		});
+// Находим элементы на странице
+// const createButton = document.querySelector('.create-button');
+const setNameInput = document.getElementById('setNameInput');
+
+// Добавляем обработчик события для кнопки "CREATE"
+createButton.addEventListener('click', function() {
+  // Получаем значение из поля ввода
+  const setName = setNameInput.value;
+
+  // Проверяем, заполнено ли поле ввода
+  if (setName === '') {
+    alert("You didn't enter the name of the set");
+    return;
+  }
+
+  // Выполняем запрос к серверу
+  const apiUrl = 'http://62.84.121.82:8080/api/Set/create';
+  const requestBody = {
+    accessToken: token[1],
+    name: setName,
+    description: null
+  };
+
+  fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestBody)
+  })
+    .then(response => response.json())
+    .then(data => {
+      // Обработка ответа от сервера
+      console.log(data);
+      // Перезагрузка страницы
+	  window.location.reload();
+    })
+    .catch(error => console.error(error));
+
+	// Скрываем всплывающее окно
+	const popupContainer = document.querySelector('.popup-create-set');
+	popupContainer.style.display = 'none';
+
+	// Очищаем поле ввода
+	setNameInput.value = '';
+});
+
 	</script>
 
 	<!-- Поиск сетов -->
@@ -158,5 +220,6 @@
     });
 }
 </script>
+
 </body>
 </html>
