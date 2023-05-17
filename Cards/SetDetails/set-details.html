@@ -8,504 +8,20 @@
 	<link
 		href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
 		rel="stylesheet">
-    <style>
-        body {
-            margin: 50px 250px 10px 250px ;
-            font-family: 'Titillium Web', sans-serif;
-            background-color: #F8FAFC;
-        }
-
-        .logo {
-            width: 300px;
-            height: 80px;
-            cursor: pointer;
-        }
-
-        header {
-            display: flex;
-            justify-content: left;
-            align-items: left;
-            height: 100px;
-            width: 1000px;
-            margin: 0 auto;
-        }
-
-        .workplace {
-            display: block;
-            width: 1000px;
-            height: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }   
-
-        .workplace__header {
-            display: block;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0px;
-        }
-
-        .set-name{
-            font-size: 40px;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .btn-start-dict {
-            width: 150px;
-         
-            background-color: #7C3AED;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            line-height: 24px;
-        }
-        
-        .btn-start-dict:hover {
-            background-color: #6931c9;
-        }
-
-        .btn-start-dict:active {
-            background-color: #572aa5;
-        }
-
-        .btn-add-words {
-            width: 175px;
-            height: 50px;
-            background-color: #7C3AED;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            line-height: 24px;
-        }
-        
-        .btn-add-words:hover {
-            background-color: #6931c9;
-        }
-
-        .btn-add-words:active {
-            background-color: #572aa5;
-        }
-
-        .word-container {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 10px;
-            
-        }
-        
-        .word-pair {
-            display: block;
-            background-color: white;
-            margin-bottom: 20px;
-            /* border: 2px rgb(207, 207, 207) solid; */
-            padding: 10px 10px 10px 10px;
-            border-radius: 6px;
-            box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.144);
-            transition: transform 0.3s ease-in-out, box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-            cursor: pointer;
-            
-        }
-
-        .word-pair:hover {
-            border-radius: 8px;
-            transform: translateY(-3px);
-            box-shadow: 0px 5px 5px hsla(0, 0%, 0%, 0.219); 
-        }
-
-        .word-div{
-            display: flex;
-            text-align: left;
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .word {
-            margin-right: 5px;
-        }
-
-        .word::after{
-            content: " -";
-        }
-    
-
-        .description{
-            font-size: 18px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9990;
-            opacity: 0;
-            pointer-events: none;
-            background-color: rgba(0, 0, 0, 0.5);
-            transition: opacity 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-
-        .popup-content {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 700px;
-            height: auto;
-            background-color: white;
-            border-radius: 6px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-            padding: 20px;
-            box-sizing: border-box;
-            z-index: 10000;
-            padding: 30px 25px 30px 25px;
-        }
-
-        .popup-word-pair {
-            display: flex;
-            text-align: left;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .popup-word, .popup-translation, .popup-description{
-            font-size: 20px;
-        }
-       
-        .popup-word::after {
-            content: " -";
-        }
-
-        .popup-word{
-            margin-right: 5px;
-        }
-
-        .popup-word-title{
-            font-size: 35px;
-            font-weight: 600;
-        }
-
-        .btn-add-one-word {
-            background-color: #7C3AED;
-            border-radius: 5px;
-            color: white;
-            border: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 40px; 
-            height: 40px; 
-            font-size: 30px; 
-            font-weight: 100;
-            margin: 0 auto; 
-            cursor: pointer;
-        }
-
-        .btn-add-one-word:hover {
-            background-color: #6931c9;
-        }
-
-        .btn-add-one-word:active {
-            background-color: #572aa5;
-        }
-
-        .pagination {
-            /* margin-top: 10px; */
-            margin-bottom: 10px;
-            justify-content: center;
-            align-items: center;
-            text-align: right;
-        }
-
-        .page-number {
-            display: inline-block;
-            margin-right: 5px;
-            padding: 5px 10px;
-            background-color: #f0f0f0;
-            cursor: pointer;
-        }
-
-        .page-number:hover {
-            background-color: #e0e0e0;
-        }
-
-        .page-number.active {
-            background-color: #ccc;
-            cursor: default;
-        }
-
-        .add-word-popup {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            transition: opacity 0.3s ease;
-            backdrop-filter: blur(5px);
-            z-index: 9991;
-        }
-        
-        .add-word-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-            width: 625px;
-        }
-
-        .add-word-title {
-        font-size: 24px;
-        font-weight: bold;
-        /* margin-bottom: 10px; */
-        text-align: left;
-        }
-
-        .add-word-input, .add-translate-input,
-        .add-description-input {
-        width: 95%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        }
-
-        .add-description-input{
-            height: 50px;
-        }
-
-
-        .btn-add-word {
-            background-color: #7C3AED;
-            border-radius: 5px;
-            color: white;
-            border: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 110px; 
-            height: 30px; 
-            font-size: 14px; 
-            font-weight: 600;
-            margin: 0 auto; 
-            cursor: pointer;
-        }
-
-        .btn-add-word:hover {
-            background-color: #6931c9;
-        }
-
-        .btn-add-word:active {
-            background-color: #572aa5;
-        }
-
-        /* Новое */
-        
-        
-.add-word-content-header{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
-
-.add-many-words-button {
-  background-color: #ffffff;
-  color: #7C3AED;
-  border: 0;
-  width: auto; 
-  height: auto; 
-  font-size: 14px;
-  font-weight: 600; 
-  padding: 0;
-  cursor: pointer;
-}
-
-.add-many-words-button:hover {
-  color: #6931c9;
-}
-
-.add-many-words-button:active {
-  color: #572aa5;
-}
-
-.modal-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-align: left;
-  margin-top: 10px;
-}
-
-.modal-description {
-  font-size: 16px;
-  margin-bottom: 10px;
-  text-align: left;
-}
-
-.add-words-input {
-  width: 96%;
-  height: 125px;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.add-words-button {
-  background-color: #7C3AED;
-  border-radius: 5px;
-  color: white;
-  border: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 110px; 
-  height: 30px; 
-  font-size: 14px; 
-  font-weight: 600;
-  margin: 0 auto; 
-  cursor: pointer;
-}
-
-.add-words-button:hover {
-  background-color: #6931c9;
-}
-
-.add-words-button:active {
-  background-color: #572aa5;
-}
-
-
-/* НОВЕЙ */
-.add-words-modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* background-color: rgba(0, 0, 0, 0.5); */
-  transition: opacity 0.3s ease;
-  /* backdrop-filter: blur(5px); */
-  z-index: 9992;
-}
-
-.modal-content{
-    position: absolute;
-    min-width: 626px;
-    min-height: 300px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;    
-}
-
-.search-box {
-    width: 100%;
-    height: 55px;
-    padding: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    margin-right: 20px;
-}
-
-.workplace__search {
-    position: relative;
-    margin-bottom: 20px;
-    display: flex;
-}
-
-.close-add-word-popup, .close-add-words-modal, .close-word-popup {
-  position: absolute;
-  color: #E2E8F0;
-  top: -8px;
-  right: 10px;
-  font-size: 30px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close-add-word-popup:hover, .close-add-words-modal:hover, .close-word-popup:hover{
-    color: #c5ced8;
-}
-
-hr{ 
-    background-color: black;
-    border: 1px black solid;
-    width: 1000px;
-    margin-bottom: 20px;
-}
-
-/* .word-pair {
-    text-align: center;
-} */
-
-.delete-word { 
-    position: absolute;
-    font-size: 16px;
-    bottom: 8px;
-    right: 7px;
-    opacity: 0.5;
-    transition: all 0.3s ease-out;
-    cursor: pointer;
-    }
-
-    .delete-word:hover { 
-    opacity: 1;
-    }
-
-
-    .word-pair .delete-word {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.word-pair:hover .delete-word {
-  opacity: 1;
-}
-
-
-    </style>
+    <link rel="stylesheet" href="style-for-set-details.css">
 </head>
 <body>
     <header>
         <a href="cards.html">
-            <img src="../files/logo.png" alt="Логотип" class="logo">
+            <img src="../../files/logo.png" alt="Логотип" class="logo">
         </a>
     </header>
 
     <div class="workplace">
         <div class="workplace__header">
             <p class="set-name" id="set-name"></p>
-            <hr>
-        </div>
+            <button class="delete-set">🗑️</div>
+        <hr>
         <div class="workplace__search">
             <input type="text" placeholder="Find Word 🔎" class="search-box">
             <button class="btn-start-dict" id="btn-start-dict">start</button>
@@ -576,10 +92,9 @@ hr{
                 const wordsString = data.data.words.map(word => `${word.word}-${word.translate}`).join(';');
                 const btnStartDict = document.getElementById('btn-start-dict');   
                 btnStartDict.addEventListener('click', function() {
-                const dictPageUrl = `dict-page.html?words=${encodeURIComponent(wordsString)}`;
+                const dictPageUrl = `DictPage/dict-page.html?words=${encodeURIComponent(wordsString)}`;
                 window.location.href = dictPageUrl;
             });
-
 
                 console.log(words);
 
@@ -649,8 +164,6 @@ hr{
                             popupOverlay.style.pointerEvents = 'auto';
                         });
 
-                   
-
                     });
 updatePagination();
             };
@@ -693,7 +206,6 @@ updatePagination();
         popup.style.display = 'none';
     });
 
-
     const closeWordModal = document.querySelector('.close-add-word-popup');
     window.addEventListener('click', (event) => {
         if (event.target === popup || event.target === closeWordModal) {
@@ -726,14 +238,12 @@ window.addEventListener('click', (event) => {
     }
   });
 
-  
 addWordsButton.addEventListener('click', () => {
   const wordsList = addWordsInput.value;
   const wordsArray = wordsList.split('\n');
   addWordsModal.style.display = 'none';
   addWordsInput.value = '';
 });
-
 
     </script>
 
@@ -766,14 +276,47 @@ addWordsButton.addEventListener('click', () => {
                 .then(response => response.json())
                 .then(result => {
                     console.log(result);
-                    // Обработка успешного ответа от сервера
-                    // Например, удаление соответствующего элемента из DOM
                     wordPair.remove();
                     window.location.reload();
                 })
                 .catch(error => {
                     console.error(error);
-                    // Обработка ошибки при выполнении запроса
+                });
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteSet= document.querySelectorAll('.delete-set');
+        
+        deleteSet.forEach(button => {
+            button.addEventListener('click', function() {
+                const token = params.get('token');
+                const setId = params.get('id');
+
+                const apiUrl = 'http://62.84.121.82:8080/api/Set/delete';
+                const data = {
+                    accessToken: token,
+                    setId: setId,
+                    description: null
+                };
+                
+                fetch(apiUrl, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    window.location.href = "./cards.html";
+                })
+                .catch(error => {
+                    console.error(error);
                 });
             });
         });
@@ -783,26 +326,13 @@ addWordsButton.addEventListener('click', () => {
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var addWordsButton = document.querySelector('.add-words-button');
-        var addWordsInput = document.querySelector('#add-words-input');
         var addWordButton = document.getElementById("btn-add-word");
         var wordInput = document.getElementById("add-word-input");
         var translateInput = document.getElementById("add-translate-input");
         var descriptionInput = document.getElementById("add-description-input");
 
-        addWordsButton.addEventListener('click', function() {
-            var inputText = addWordsInput.value.trim();
-
-            if (inputText === '') {
-                alert("You haven't entered anything");
-                return;
-            }
-
-        
-        });
-
         addWordButton.addEventListener("click", function() {
-            if (wordInput.value === "" || translateInput.value === "" || descriptionInput.value === "") {
+            if (wordInput.value === "" || translateInput.value === "") {
                 alert("You have not filled in one of the fields");
                 return;
             } else {
@@ -845,6 +375,7 @@ addWordsButton.addEventListener('click', () => {
         });
     });
 </script>
+
 </body>
 
 </html>

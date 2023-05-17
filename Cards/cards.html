@@ -24,15 +24,6 @@
 				<input type="text" placeholder="Find Set 🔎" class="search-box">
 			</div>
 			<div class="card-set">
-				<!-- Пример карточки -->
-				<!-- <div class="card">
-					<div class="card-content">
-						<div class="card-title">Card title</div>
-						<div class="card-word-count">Count words</div>
-						<div class="card-line"></div>
-						<div class="card-learn">Learn</div>
-					</div>
-				</div> -->
 			</div>
 			<div class="popup-container-create-set">
 				<div class="popup-create-set">
@@ -44,20 +35,13 @@
 			</div>
         </div>
 	</main>
-
-	
 	<script src="https://cdn.jsdelivr.net/npm/randomcolor/randomColor.min.js"></script>
-
-
 	<script>
 		const cardSet = document.querySelector('.card-set');
-	
-		// Получение значения токена из куки
 		const token = document.cookie.split(';').map(cookie => cookie.split('=')).find(([key, value]) => key.trim() === 'token');
 		if (token) {
 			const apiUrl = `http://62.84.121.82:8080/api/Set/${token[1]}`;
 			console.log(apiUrl);
-			// Запрос к API для получения данных
 			fetch(apiUrl)
   .then(response => response.json())
   .then(data => {
@@ -74,6 +58,7 @@
       cardContent.classList.add('card-content');
       card.appendChild(cardContent);
 
+	
       const cardTitle = document.createElement('div');
       cardTitle.classList.add('card-title');
       cardTitle.textContent = name;
@@ -121,7 +106,7 @@
 		token: token ? token[1] : ''
 	  });
 
-	  window.location.href = `set-details.html?${queryParams.toString()}`;
+	  window.location.href = `SetDetails/set-details.html?${queryParams.toString()}`;
 	});
   });
   })
@@ -129,7 +114,6 @@
 		}
 	</script>
 
-	<!-- Кнопка создать сет -->
 	<script>
 		const createSetButton = document.querySelector('.create-set');
 		const popupContainer = document.querySelector('.popup-container-create-set');
@@ -150,22 +134,16 @@
 		}
 		});
 
-// Находим элементы на странице
-// const createButton = document.querySelector('.create-button');
 const setNameInput = document.getElementById('setNameInput');
 
-// Добавляем обработчик события для кнопки "CREATE"
 createButton.addEventListener('click', function() {
-  // Получаем значение из поля ввода
   const setName = setNameInput.value;
 
-  // Проверяем, заполнено ли поле ввода
   if (setName === '') {
     alert("You didn't enter the name of the set");
     return;
   }
 
-  // Выполняем запрос к серверу
   const apiUrl = 'http://62.84.121.82:8080/api/Set/create';
   const requestBody = {
     accessToken: token[1],
@@ -182,24 +160,19 @@ createButton.addEventListener('click', function() {
   })
     .then(response => response.json())
     .then(data => {
-      // Обработка ответа от сервера
       console.log(data);
-      // Перезагрузка страницы
 	  window.location.reload();
     })
     .catch(error => console.error(error));
 
-	// Скрываем всплывающее окно
 	const popupContainer = document.querySelector('.popup-create-set');
 	popupContainer.style.display = 'none';
 
-	// Очищаем поле ввода
 	setNameInput.value = '';
 });
 
 	</script>
 
-	<!-- Поиск сетов -->
 <script>
     const searchBox = document.querySelector('.search-box');
     searchBox.addEventListener('input', () => {
@@ -221,5 +194,39 @@ createButton.addEventListener('click', function() {
 }
 </script>
 
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.delete-set');
+        
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const token = params.get('token');
+                const setId = params.get('id');
+
+                const apiUrl = 'http://62.84.121.82:8080/api/Set/deleteWords';
+                const data = {
+                    accessToken: token,
+                    setId: setId,
+                    description: null
+                };
+                
+                fetch(apiUrl, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            });
+        });
+    });
+</script>
 </body>
 </html>

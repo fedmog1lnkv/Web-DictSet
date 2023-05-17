@@ -1,0 +1,494 @@
+body {
+    margin: 50px 250px 10px 250px ;
+    font-family: 'Titillium Web', sans-serif;
+    background-color: #F8FAFC;
+}
+
+.logo {
+    width: 300px;
+    height: 80px;
+    cursor: pointer;
+}
+
+header {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    height: 100px;
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.workplace {
+    display: block;
+    width: 1000px;
+    height: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}   
+
+.workplace__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0px;
+}
+
+.set-name{
+    font-size: 40px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.btn-start-dict {
+    width: 150px;
+ 
+    background-color: #7C3AED;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 24px;
+}
+
+.btn-start-dict:hover {
+    background-color: #6931c9;
+}
+
+.btn-start-dict:active {
+    background-color: #572aa5;
+}
+
+.btn-add-words {
+    width: 175px;
+    height: 50px;
+    background-color: #7C3AED;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 24px;
+}
+
+.btn-add-words:hover {
+    background-color: #6931c9;
+}
+
+.btn-add-words:active {
+    background-color: #572aa5;
+}
+
+.word-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    
+}
+
+.word-pair {
+    display: block;
+    background-color: white;
+    margin-bottom: 20px;
+    /* border: 2px rgb(207, 207, 207) solid; */
+    padding: 10px 10px 10px 10px;
+    border-radius: 6px;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.144);
+    transition: transform 0.3s ease-in-out, box-shadow 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+    cursor: pointer;
+    
+}
+
+.word-pair:hover {
+    border-radius: 8px;
+    transform: translateY(-3px);
+    box-shadow: 0px 5px 5px hsla(0, 0%, 0%, 0.219); 
+}
+
+.word-div{
+    display: flex;
+    text-align: left;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.word {
+    margin-right: 5px;
+}
+
+.word::after{
+    content: " -";
+}
+
+
+.description{
+    font-size: 18px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9990;
+    opacity: 0;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.popup-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: auto;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 10000;
+    padding: 30px 25px 30px 25px;
+}
+
+.popup-word-pair {
+    display: flex;
+    text-align: left;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.popup-word, .popup-translation, .popup-description{
+    font-size: 20px;
+}
+
+.popup-word::after {
+    content: " -";
+}
+
+.popup-word{
+    margin-right: 5px;
+}
+
+.popup-word-title{
+    font-size: 35px;
+    font-weight: 600;
+}
+
+.btn-add-one-word {
+    background-color: #7C3AED;
+    border-radius: 5px;
+    color: white;
+    border: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px; 
+    height: 40px; 
+    font-size: 30px; 
+    font-weight: 100;
+    margin: 0 auto; 
+    cursor: pointer;
+}
+
+.btn-add-one-word:hover {
+    background-color: #6931c9;
+}
+
+.btn-add-one-word:active {
+    background-color: #572aa5;
+}
+
+.pagination {
+    /* margin-top: 10px; */
+    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: right;
+}
+
+.page-number {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.page-number:hover {
+    background-color: #e0e0e0;
+}
+
+.page-number.active {
+    background-color: #ccc;
+    cursor: default;
+}
+
+.add-word-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(5px);
+    z-index: 9991;
+}
+
+.add-word-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    width: 625px;
+}
+
+.add-word-title {
+font-size: 24px;
+font-weight: bold;
+/* margin-bottom: 10px; */
+text-align: left;
+}
+
+.add-word-input, .add-translate-input,
+.add-description-input {
+width: 95%;
+padding: 10px;
+margin-bottom: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+
+.add-description-input{
+    height: 50px;
+}
+
+
+.btn-add-word {
+    background-color: #7C3AED;
+    border-radius: 5px;
+    color: white;
+    border: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 110px; 
+    height: 30px; 
+    font-size: 14px; 
+    font-weight: 600;
+    margin: 0 auto; 
+    cursor: pointer;
+}
+
+.btn-add-word:hover {
+    background-color: #6931c9;
+}
+
+.btn-add-word:active {
+    background-color: #572aa5;
+}
+
+/* Новое */
+
+
+.add-word-content-header{
+display: flex;
+justify-content: space-between;
+margin-bottom: 10px;
+margin-top: 10px;
+}
+
+
+.add-many-words-button {
+background-color: #ffffff;
+color: #7C3AED;
+border: 0;
+width: auto; 
+height: auto; 
+font-size: 14px;
+font-weight: 600; 
+padding: 0;
+cursor: pointer;
+}
+
+.add-many-words-button:hover {
+color: #6931c9;
+}
+
+.add-many-words-button:active {
+color: #572aa5;
+}
+
+.modal-title {
+font-size: 24px;
+font-weight: bold;
+margin-bottom: 10px;
+text-align: left;
+margin-top: 10px;
+}
+
+.modal-description {
+font-size: 16px;
+margin-bottom: 10px;
+text-align: left;
+}
+
+.add-words-input {
+width: 96%;
+height: 125px;
+padding: 10px;
+margin-bottom: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+
+.add-words-button {
+background-color: #7C3AED;
+border-radius: 5px;
+color: white;
+border: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+width: 110px; 
+height: 30px; 
+font-size: 14px; 
+font-weight: 600;
+margin: 0 auto; 
+cursor: pointer;
+}
+
+.add-words-button:hover {
+background-color: #6931c9;
+}
+
+.add-words-button:active {
+background-color: #572aa5;
+}
+
+
+/* НОВЕЙ */
+.add-words-modal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+/* background-color: rgba(0, 0, 0, 0.5); */
+transition: opacity 0.3s ease;
+/* backdrop-filter: blur(5px); */
+z-index: 9992;
+}
+
+.modal-content{
+position: absolute;
+min-width: 626px;
+min-height: 300px;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background-color: #fff;
+padding: 20px;
+border-radius: 5px;
+text-align: center;    
+}
+
+.search-box {
+width: 100%;
+height: 55px;
+padding: 10px;
+font-size: 18px;
+font-weight: 600;
+box-sizing: border-box;
+border: 2px solid #ccc;
+border-radius: 4px;
+margin-right: 20px;
+}
+
+.workplace__search {
+position: relative;
+margin-bottom: 20px;
+display: flex;
+}
+
+.close-add-word-popup, .close-add-words-modal, .close-word-popup {
+position: absolute;
+color: #E2E8F0;
+top: -8px;
+right: 10px;
+font-size: 30px;
+font-weight: bold;
+cursor: pointer;
+}
+
+.close-add-word-popup:hover, .close-add-words-modal:hover, .close-word-popup:hover{
+color: #c5ced8;
+}
+
+hr{ 
+border: 1px #ccc solid;
+width: 1000px;
+margin-bottom: 20px;
+}
+
+
+.delete-word { 
+position: absolute;
+font-size: 16px;
+bottom: 8px;
+right: 0px;
+opacity: 0.5;
+transition: all 0.3s ease-out;
+cursor: pointer;
+background-color: white;
+border: 0;
+}
+
+.delete-word:hover { 
+opacity: 1;
+}
+
+
+.word-pair .delete-word {
+opacity: 0;
+transition: opacity 0.3s ease;
+}
+
+.word-pair:hover .delete-word {
+opacity: 1;
+}
+
+.delete-set { 
+position: block;
+font-size: 16px;
+bottom: 8px;
+right: 7px;
+opacity: 0.5;
+transition: all 0.3s ease-out;
+cursor: pointer;
+background-color: white;
+border: 0;
+}
+.delete-set:hover { 
+opacity: 1;
+}

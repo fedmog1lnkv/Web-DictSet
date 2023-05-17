@@ -8,158 +8,7 @@
 	<link
 		href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
 		rel="stylesheet">
-    <style>
-
-        body {
-            font-family: 'Titillium Web', sans-serif;
-            background-color: #F8FAFC;
-        }
-
-        /* Add CSS styles for progress bar */
-        .progress-bar {
-            width: 80%;
-            height: 20px;
-            border-radius: 10px;
-            background-color: #E2E8F0;
-            position: relative;
-            margin: 0 auto;
-            margin-top: 50px;
-            
-        }
-
-        .progress-bar-fill {
-            border-radius: 10px;
-            height: 100%;
-            background: linear-gradient(147.19deg, #F6A2A9 30.4%, #BD52FF 106%);
-            width: 0;
-        }
-
-        .workplace{
-            max-width: 100%;
-            margin: 0 auto;
-        }
-
-        /* Add CSS styles for word display */
-        .word-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: calc(100vh - 250px);
-        }
-
-        .translation-input {
-            width: 30%;
-            height: 5%;
-            font-size: 20px;
-            padding: 10px 10px 10px 10px;
-            border-radius: 10px;
-            border: 2px solid #ccc;
-        }
-
-        .word {
-            font-size: 50px;
-            font-weight: bold;
-            margin-bottom: 16px;
-        }
-
-        /* Add CSS styles for navigation buttons */
-        .navigation-buttons {
-            display: flex;
-            justify-content: center;
-         
-        }
-
-        .navigation-buttons button {
-            margin: 0 8px;
-            padding: 8px 16px;
-        }
-
-        /* Add CSS styles for popup window */
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease-in-out;
-            backdrop-filter: blur(5px);
-        }
-
-        .popup-content {
-            height: auto;
-            width: auto;
-            background-color: #fff;
-            padding: 32px;
-            border-radius: 4px;
-        }
-
-        .results-container{
-            /* height: 190px; */
-            width: auto;
-        }
-
-        .incorrect-words{
-            height: 130px; 
-        }
-
-        
-        .btn-repeat-dictation, .btn-return-to-previous {
-            background-color: #7C3AED;
-            color: white;
-            height: auto;
-            width: 120px;
-            padding: 10px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        
-        .btn-skip-word, .btn-next-word {
-            background-color: #7C3AED;
-            color: white;
-            height: 40px;
-            width: 120px;
-            padding: 10px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .btn-skip-word:hover, .btn-next-word:hover {
-            background-color: #6931c9;
-        }
-
-        .btn-skip-word:active, .btn-next-word:active {
-            background-color: #572aa5;
-        }
-
-        .btn-flip-prev, .btn-flip-next{
-            font-size: 16x;
-            color: #7C3AED;
-            padding: 5px;
-        }
-
-        .message{
-            position: absolute;
-            color: black;
-            top: 53%;
-            right: 47%;
-        }
-
-
-    </style>
+    <link rel="stylesheet" href="style-for-dict-page.css">
 </head>
     <body>
         <div class="workplace">
@@ -221,7 +70,8 @@ let incorrectWords = [];
 if (words) {
     const wordPairs = words.split(';');
     totalWords = wordPairs.length;
-
+// Shuffle word pairs
+shuffleArray(wordPairs);
     updateWord();
 
    // Add event listener to "Next Word" button
@@ -267,16 +117,25 @@ btnNextWord.addEventListener('click', () => {
     });
 
     
-    // Display the current word and translation
-    function updateWord() {
-        const [word, translation] = wordPairs[wordIndex].split('-');
-        wordElement.textContent = word;
-        translationInput.value = '';
-        translationInput.focus();
-        messageElement.textContent = '';
-updateProgressBar();
-translationInput.addEventListener('keydown', handleTranslationInput);
+   // Display the current word and translation
+function updateWord() {
+    const [word, translation] = wordPairs[wordIndex].split('-');
+    wordElement.textContent = word;
+    translationInput.value = '';
+    translationInput.focus();
+    messageElement.textContent = '';
+    updateProgressBar();
+    translationInput.addEventListener('keydown', handleTranslationInput);
 }
+
+// Shuffle array function
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 // Handle translation input
 function handleTranslationInput(event) {
     if (event.key === 'Enter') {
