@@ -37,79 +37,93 @@
 	</main>
 	<script src="https://cdn.jsdelivr.net/npm/randomcolor/randomColor.min.js"></script>
 	<script>
-		const cardSet = document.querySelector('.card-set');
-		const token = document.cookie.split(';').map(cookie => cookie.split('=')).find(([key, value]) => key.trim() === 'token');
-		if (token) {
-			const apiUrl = `http://62.84.121.82:8080/api/Set/${token[1]}`;
-			console.log(apiUrl);
-			fetch(apiUrl)
-  .then(response => response.json())
-  .then(data => {
-    data.data.forEach(item => {
-      const { name, countWords, id } = item;
-      const card = document.createElement('div');
-      card.classList.add('card');
-      card.classList.add(`card-id-${id}`);
-	  card.setAttribute('data-name', name); // Добавлен атрибут data-name
-	  card.setAttribute('data-id', id); // Добавлен атрибут data-id
-      cardSet.appendChild(card);
 
-      const cardContent = document.createElement('div');
-      cardContent.classList.add('card-content');
-      card.appendChild(cardContent);
+var stringToColour = function (str) {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    var colour = '#';
+    for (var i = 0; i < 3; i++) {
+        var value = (hash >> (i * 8)) & 0xFF;
+        colour += ('00' + value.toString(16)).substr(-2);
+    }
+    return colour;
+}
 
-	
-      const cardTitle = document.createElement('div');
-      cardTitle.classList.add('card-title');
-      cardTitle.textContent = name;
-      cardContent.appendChild(cardTitle);
+const cardSet = document.querySelector('.card-set');
+const token = document.cookie.split(';').map(cookie => cookie.split('=')).find(([key, value]) => key.trim() === 'token');
+if (token) {
+    const apiUrl = `http://62.84.121.82:8080/api/Set/${token[1]}`;
+    console.log(apiUrl);
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            data.data.forEach(item => {
+                const { name, countWords, id } = item;
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.classList.add(`card-id-${id}`);
+                card.setAttribute('data-name', name); // Добавлен атрибут data-name
+                card.setAttribute('data-id', id); // Добавлен атрибут data-id
+                cardSet.appendChild(card);
 
-      const cardWordCount = document.createElement('div');
-      cardWordCount.classList.add('card-word-count');
-      cardWordCount.textContent = countWords + ' words';
-      cardContent.appendChild(cardWordCount);
+                const cardContent = document.createElement('div');
+                cardContent.classList.add('card-content');
+                card.appendChild(cardContent);
 
-      const cardLine = document.createElement('div');
-      cardLine.classList.add('card-line');
-      cardContent.appendChild(cardLine);
+                const cardTitle = document.createElement('div');
+                cardTitle.classList.add('card-title');
+                cardTitle.textContent = name;
+                cardContent.appendChild(cardTitle);
 
-      const cardLearn = document.createElement('div');
-      cardLearn.classList.add('card-learn');
-      cardLearn.textContent = 'Learn';
-      cardContent.appendChild(cardLearn);
+                const cardWordCount = document.createElement('div');
+                cardWordCount.classList.add('card-word-count');
+                cardWordCount.textContent = countWords + ' words';
+                cardContent.appendChild(cardWordCount);
 
-      const color = randomColor();
-      const canvas = document.createElement('canvas');
-      canvas.width = 300;
-      canvas.height = 300;
+                const cardLine = document.createElement('div');
+                cardLine.classList.add('card-line');
+                cardContent.appendChild(cardLine);
 
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = color;
-      ctx.fillRect(0, 0, 300, 300);
+                const cardLearn = document.createElement('div');
+                cardLearn.classList.add('card-learn');
+                cardLearn.textContent = 'Learn';
+                cardContent.appendChild(cardLearn);
 
-      card.style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
-    });
-	const cards = document.querySelectorAll('.card');
-  
-  cards.forEach(card => {
-	card.addEventListener('click', () => {
-	  const name = card.getAttribute('data-name');
-	  const id = card.getAttribute('data-id');
-	  const token = document.cookie
-		.split(';')
-		.map(cookie => cookie.split('='))
-		.find(([key, value]) => key.trim() === 'token');
+                const color = stringToColour(name); // Генерация цвета на основе имени
+                const canvas = document.createElement('canvas');
+                canvas.width = 300;
+                canvas.height = 300;
 
-	  const queryParams = new URLSearchParams({
-		name,
-		id,
-		token: token ? token[1] : ''
-	  });
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = color;
+                ctx.fillRect(0, 0, 300, 300);
 
-	  window.location.href = `SetDetails/set-details.html?${queryParams.toString()}`;
-	});
-  });
-  })
+                card.style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
+            });
+
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const name = card.getAttribute('data-name');
+                    const id = card.getAttribute('data-id');
+                    const token = document.cookie
+                        .split(';')
+                        .map(cookie => cookie.split('='))
+                        .find(([key, value]) => key.trim() === 'token');
+
+                    const queryParams = new URLSearchParams({
+                        name,
+                        id,
+                        token: token ? token[1] : ''
+                    });
+
+                    window.location.href = `SetDetails/set-details.html?${queryParams.toString()}`;
+                });
+            });
+        })
   .catch(error => console.error(error));
 		}
 	</script>
